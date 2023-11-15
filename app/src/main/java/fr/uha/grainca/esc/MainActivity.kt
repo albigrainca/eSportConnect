@@ -9,17 +9,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import fr.uha.grainca.esc.ui.theme.Team2023Theme
+import fr.uha.grainca.esc.ui.game.CreateGameScreen
+import fr.uha.grainca.esc.ui.theme.ESportConnectTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Team2023Theme {
+            ESportConnectTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    Greeting("Ensisa !")
+                    CreateGameScreen()
                 }
             }
         }
@@ -37,7 +38,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    Team2023Theme {
+    ESportConnectTheme {
         Greeting("Android")
     }
 }

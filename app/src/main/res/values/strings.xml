@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Team 2023</string>
+    <string name="name">Game name</string>
+    <string name="creator">Creator</string>
+    <string name="releaseDate">Release date</string>
+    <string name="genre">Genre</string>
+    <string name="description">Description</string>
 </resources>
