@@ -14,6 +14,8 @@ import androidx.room.Room
     exportSchema = false
 )
 abstract class ESportDatabase : RoomDatabase() {
+
+    abstract val gameDAO : GameDAO
     companion object {
         private lateinit var instance : ESportDatabase
 

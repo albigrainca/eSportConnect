@@ -18,7 +18,7 @@ interface GameDAO {
     fun getGameById (id : Long) : Flow<Game?>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    fun create (game : Game) : Long
+    suspend fun create (game : Game) : Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun update (game : Game) : Long
