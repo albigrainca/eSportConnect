@@ -11,6 +11,7 @@ import fr.uha.grainca.esc.model.Game
 import androidx.compose.runtime.Composable
 import fr.uha.grainca.esc.model.Genre
 import fr.uha.hassenforder.android.ui.OutlinedEnumRadioGroup
+import fr.uha.hassenforder.android.ui.OutlinedSpinnerFieldEnum
 
 @Composable
 fun SuccessGameScreen (
@@ -35,11 +36,11 @@ fun SuccessGameScreen (
             modifier = Modifier.fillMaxWidth(),
             label = { Text(stringResource(id = R.string.releaseDate))}
         )
-        OutlinedEnumRadioGroup(
+        OutlinedSpinnerFieldEnum(
             value = game.genre,
-            onValueChange = { },
+            onValueChange = { /* Update game genre */ },
             modifier = Modifier.fillMaxWidth(),
-            items = Genre.values(),
+            enumValues = Genre.values(),
             labelId = R.string.genre
         )
         OutlinedTextField(
@@ -48,6 +49,7 @@ fun SuccessGameScreen (
             modifier = Modifier.fillMaxWidth(),
             label = { Text(stringResource(id = R.string.description))}
         )
+
 
     }
 }

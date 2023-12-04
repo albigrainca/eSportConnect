@@ -8,6 +8,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import fr.uha.hassenforder.android.R
 import java.util.*
+import java.lang.Enum.valueOf
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.res.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,7 +39,9 @@ fun OutlinedSpinnerField (
             value = selectedOption.first,
             readOnly = true,
             onValueChange = { },
-            modifier = modifier.fillMaxWidth().menuAnchor(),
+            modifier = modifier
+                .fillMaxWidth()
+                .menuAnchor(),
             label = { Text (text = stringResource(label)) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
             supportingText = { if (errorId != null) Text(stringResource(id = errorId)) },
@@ -72,3 +78,37 @@ fun OutlinedSpinnerFieldPreview() {
         errorId = null
     )
 }
+@Composable
+fun <T : Enum<T>> OutlinedSpinnerFieldEnum(
+    value: T?,
+    onValueChange: (T) -> Unit,
+    modifier: Modifier = Modifier,
+    enumValues: Array<T>,
+    labelId: Int? = null,
+    errorId: Int? = null,
+    displayTextProvider: (T) -> String = { it.name }
+) {
+    // The currently selected value's display text
+    val displayText = value?.let(displayTextProvider) ?: ""
+
+    // Prepare the display texts and corresponding enum values for the spinner
+    val optionViews = enumValues.map(displayTextProvider).toTypedArray()
+    val optionValues = enumValues.map { it.name }.toTypedArray()
+
+    // The index of the currently selected value
+    val selectedIndex = enumValues.indexOf(value)
+
+    OutlinedSpinnerField(
+        value = if (selectedIndex != -1) optionViews[selectedIndex] else optionViews[0],
+        onValueChange = { newValue ->
+            enumValues.find { it.name == newValue }?.let { onValueChange(it) }
+        },
+        modifier = modifier,
+        label = labelId ?: 0,
+        option_views = optionViews,
+        option_values = optionValues,
+        errorId = errorId
+    )
+}
+
+
