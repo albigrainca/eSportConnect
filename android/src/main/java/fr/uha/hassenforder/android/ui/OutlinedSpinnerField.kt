@@ -8,10 +8,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import fr.uha.hassenforder.android.R
 import java.util.*
-import java.lang.Enum.valueOf
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.res.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -88,14 +84,8 @@ fun <T : Enum<T>> OutlinedSpinnerFieldEnum(
     errorId: Int? = null,
     displayTextProvider: (T) -> String = { it.name }
 ) {
-    // The currently selected value's display text
-    val displayText = value?.let(displayTextProvider) ?: ""
-
-    // Prepare the display texts and corresponding enum values for the spinner
     val optionViews = enumValues.map(displayTextProvider).toTypedArray()
     val optionValues = enumValues.map { it.name }.toTypedArray()
-
-    // The index of the currently selected value
     val selectedIndex = enumValues.indexOf(value)
 
     OutlinedSpinnerField(
