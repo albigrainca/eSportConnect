@@ -10,12 +10,15 @@ import fr.uha.hassenforder.team.R
 import fr.uha.grainca.esc.model.Game
 import androidx.compose.runtime.Composable
 import fr.uha.grainca.esc.model.Genre
+import fr.uha.hassenforder.android.ui.OutlinedDateField
 import fr.uha.hassenforder.android.ui.OutlinedEnumRadioGroup
 import fr.uha.hassenforder.android.ui.OutlinedSpinnerFieldEnum
+import java.util.Date
 
 @Composable
 fun SuccessGameScreen (
-    game: Game
+    game: GameViewModel.GameUIState,
+    uiCB: GameViewModel.GameUICallback
 ) {
     Column {
         OutlinedTextField(
@@ -30,11 +33,11 @@ fun SuccessGameScreen (
             modifier = Modifier.fillMaxWidth(),
             label = { Text(stringResource(id = R.string.creator))}
         )
-        OutlinedTextField(
+        OutlinedDateField(
             value = game.releaseDate,
             onValueChange = { },
             modifier = Modifier.fillMaxWidth(),
-            label = { Text(stringResource(id = R.string.releaseDate))}
+            label = R.string.releaseDate
         )
         OutlinedSpinnerFieldEnum(
             value = game.genre,

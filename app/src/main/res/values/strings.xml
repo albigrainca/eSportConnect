@@ -5,4 +5,13 @@
     <string name="releaseDate">Release date</string>
     <string name="genre">Genre</string>
     <string name="description">Description</string>
+    <string name="value_empty">Value is empty</string>
+    <string name="value_blank">Value is blank</string>
+    <string name="value_too_short">Value is too short</string>
+    <string name="value_too_long">Value is too long</string>
+    <string name="date_too_future">Date is too future</string>
+    <string name="date_too_past">Date is too past</string>
+    <string name="genre_must_set">Genre must set</string>
+    <string name="loading">Loading the content</string>
+    <string name="error">Error loading content</string>
 </resources>
