@@ -5,6 +5,8 @@ import androidx.room.RoomDatabase
 import fr.uha.grainca.esc.model.Game
 import android.content.Context
 import androidx.room.Room
+import androidx.room.TypeConverters
+import fr.uha.hassenforder.android.database.DatabaseTypeConverters
 
 @Database(
     entities = [
@@ -13,6 +15,8 @@ import androidx.room.Room
     version=1,
     exportSchema = false
 )
+
+@TypeConverters(DatabaseTypeConverters::class)
 abstract class ESportDatabase : RoomDatabase() {
 
     abstract val gameDAO : GameDAO

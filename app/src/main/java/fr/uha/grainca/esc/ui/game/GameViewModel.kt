@@ -98,28 +98,28 @@ class GameViewModel @Inject constructor (
 
     data class GameUIState (
         val initialState: GameState,
-        val name: FieldWrapper<String>,
-        val creator: FieldWrapper<String>,
-        val releaseDate: FieldWrapper<Date>,
-        val genre: FieldWrapper<Genre?>,
-        val description: FieldWrapper<String>,
+        val nameState: FieldWrapper<String>,
+        val creatorState: FieldWrapper<String>,
+        val releaseDateState: FieldWrapper<Date>,
+        val genreState: FieldWrapper<Genre?>,
+        val descriptionState: FieldWrapper<String>,
     ) {
         private fun _isModified (): Boolean? {
             if (initialState !is GameState.Success) return null
-            if (name.current != initialState.game.name) return true
-            if (creator.current != initialState.game.creator) return true
-            if (releaseDate.current != initialState.game.releaseDate) return true
-            if (genre.current != initialState.game.genre) return true
-            if (description.current != initialState.game.description) return true
+            if (nameState.current != initialState.game.name) return true
+            if (creatorState.current != initialState.game.creator) return true
+            if (releaseDateState.current != initialState.game.releaseDate) return true
+            if (genreState.current != initialState.game.genre) return true
+            if (descriptionState.current != initialState.game.description) return true
             return false
         }
 
         private fun _hasError (): Boolean? {
-            if (name.errorId != null) return true
-            if (creator.errorId != null) return true
-            if (releaseDate.errorId != null) return true
-            if (genre.errorId != null) return true
-            if (description.errorId != null) return true
+            if (nameState.errorId != null) return true
+            if (creatorState.errorId != null) return true
+            if (releaseDateState.errorId != null) return true
+            if (genreState.errorId != null) return true
+            if (descriptionState.errorId != null) return true
             return false
         }
 
