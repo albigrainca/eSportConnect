@@ -9,7 +9,7 @@ import androidx.compose.ui.res.stringResource
 import fr.uha.hassenforder.team.R
 import androidx.compose.runtime.Composable
 import fr.uha.grainca.esc.model.Genre
-import fr.uha.hassenforder.android.ui.OutlinedDateField
+import fr.uha.hassenforder.android.ui.OutlinedDateFieldGame
 import fr.uha.hassenforder.android.ui.OutlinedSpinnerFieldEnum
 import java.util.Date
 
@@ -35,8 +35,10 @@ fun SuccessGameScreen (
             supportingText = { if (game.creatorState.errorId != null) Text(stringResource(id = game.creatorState.errorId))},
             isError = game.creatorState.errorId != null,
         )
-        OutlinedDateField(
-            value = game.releaseDateState.current ?: Date() ,
+        OutlinedDateFieldGame(
+            value = game.releaseDateState.current ?: Date(),
+            daysBefore = null,
+            daysAfter = 7,
             onValueChange = { uiCB.onEvent(GameViewModel.UIEvent.ReleaseDateChanged(it)) },
             modifier = Modifier.fillMaxWidth(),
             label = R.string.releaseDate,

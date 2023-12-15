@@ -7,7 +7,7 @@ import java.util.Date
 @Entity (tableName = "games")
 data class Game(
     @PrimaryKey(autoGenerate = true)
-    val pid : Long = 0,
+    val pid: Long = 0,
     val name: String,
     val creator: String,
     val releaseDate: Date,

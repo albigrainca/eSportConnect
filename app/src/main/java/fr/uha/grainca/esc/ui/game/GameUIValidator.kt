@@ -14,7 +14,7 @@ object GameUIValidator {
             newValue.isEmpty() -> R.string.value_empty
             newValue.isBlank() -> R.string.value_blank
             newValue.length < 2 -> R.string.value_too_short
-            newValue.length > 12 -> R.string.value_too_long
+            newValue.length > 32 -> R.string.value_too_long
             else -> null
         }
     }
@@ -31,16 +31,12 @@ object GameUIValidator {
 
     fun validateDateChange(newValue: Date) : Int? {
         val currentDate = Calendar.getInstance()
-        val maxPastDate = Calendar.getInstance().apply {
-            add(Calendar.YEAR, -10) // 10 years in the past
-        }
         val minFutureDate = Calendar.getInstance().apply {
             add(Calendar.DAY_OF_YEAR, 1) // One day in the future
         }
 
         return when {
             newValue.after(minFutureDate.time) -> R.string.date_too_future
-            newValue.before(maxPastDate.time) -> R.string.date_too_past
             else -> null
         }
     }
