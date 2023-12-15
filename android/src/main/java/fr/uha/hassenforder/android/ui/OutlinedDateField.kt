@@ -157,3 +157,62 @@ fun CustomDatePicker (
         )
     }
 }
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun OutlinedDateFieldGame(
+    onValueChange : (Date) -> Unit,
+    modifier : Modifier = Modifier,
+    value : Date? = null,
+    daysBefore: Long?,
+    daysAfter: Long?,
+    @StringRes errorId : Int? = null,
+    @StringRes label: Int? = null,
+) {
+    val showDialog =  remember { mutableStateOf(false) }
+
+    if (showDialog.value) {
+        CustomDatePicker (
+            titleId = R.string.day_title,
+            value ?: Date(),
+            daysBefore, daysAfter
+        ) { showDialog.value = false; if (it != null) onValueChange(it) }
+    }
+
+    Column (
+        modifier = modifier
+            .padding(top = 4.dp, bottom = 4.dp)
+            .fillMaxWidth()
+            .border(
+                BorderStroke(1.dp, MaterialTheme.colorScheme.onBackground),
+                MaterialTheme.shapes.extraSmall
+            )
+            .padding(start = 16.dp),
+    ) {
+        val color = if (errorId == null) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
+        if (label != null) {
+            Text(text = stringResource(id = label), color = color)
+        }
+        Row(modifier = Modifier
+            .clickable(onClick = { showDialog.value = true })
+            .padding(top = 4.dp)
+        ) {
+            @StringRes val dayAsResource : Int? = buildDateResource (value)
+            val dayAsText: String = if (dayAsResource != null) stringResource(id = dayAsResource) else Converter.convert(
+                value
+            )
+            Text(dayAsText, color = color, modifier = Modifier.weight(1.0f))
+            Icon (
+                imageVector = Icons.Outlined.DateRange,
+                contentDescription = "date picker"
+            )
+        }
+        if (errorId != null){
+            Text(
+                text = stringResource(id = errorId),
+                color = color,
+            )
+        }
+    }
+}
