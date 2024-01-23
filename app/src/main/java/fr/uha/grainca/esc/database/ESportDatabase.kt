@@ -15,7 +15,6 @@ import fr.uha.hassenforder.android.database.DatabaseTypeConverters
     version=1,
     exportSchema = false
 )
-
 @TypeConverters(DatabaseTypeConverters::class)
 abstract class ESportDatabase : RoomDatabase() {
 

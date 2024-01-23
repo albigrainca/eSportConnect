@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import fr.uha.grainca.esc.database.ESportDatabase
 import fr.uha.grainca.esc.ui.game.CreateGameScreen
+import fr.uha.grainca.esc.ui.game.ListGamesScreen
 import fr.uha.grainca.esc.ui.theme.ESportConnectTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,7 +23,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    CreateGameScreen()
+                    ListGamesScreen()
                 }
             }
         }

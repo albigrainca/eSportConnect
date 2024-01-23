@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Team 2023</string>
+    <string name="app_name">eSport Connect</string>
     <string name="name">Game name</string>
     <string name="creator">Creator</string>
     <string name="releaseDate">Release date</string>
@@ -14,4 +14,7 @@
     <string name="genre_must_set">Genre must set</string>
     <string name="loading">Loading the content</string>
     <string name="error">Error loading content</string>
+    <string name="game_list">List of Games</string>
+    <string name="save">save</string>
+    <string name="game_create">Create Game</string>
 </resources>
