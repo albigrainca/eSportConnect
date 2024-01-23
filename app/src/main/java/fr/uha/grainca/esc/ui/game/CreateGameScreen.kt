@@ -30,12 +30,7 @@ fun CreateGameScreen (
 
     LaunchedEffect(key1 = vm.isLaunched) {
         if (!vm.isLaunched) {
-            val calendar = Calendar.getInstance()
-            calendar.set(Calendar.YEAR, 2023)
-            calendar.set(Calendar.MONTH, 11)
-            calendar.set(Calendar.DAY_OF_MONTH, 6)
-            val date: Date = calendar.time
-            val game = Game(0, "eSportConnect", "Albi Grainca", date, Genre.ACTION, "Plan you event with this app")
+            val game = Game(0, "eSportConnect", "Albi Grainca", Date(), Genre.ACTION, "Plan you event with this app")
             vm.create(game)
             vm.isLaunched = true
         }
