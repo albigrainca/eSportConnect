@@ -38,14 +38,7 @@ fun CreateGameScreen(
 
     LaunchedEffect(key1 = vm.isLaunched) {
         if (!vm.isLaunched) {
-            val game = Game(
-                0,
-                "eSportConnect",
-                "Albi Grainca",
-                Date(),
-                Genre.ACTION,
-                "Plan your event with this app"
-            )
+            val game = Game(0, "eSportConnect", "Albi Grainca", Date(), Genre.ACTION, "Plan you event with this app")
             vm.create(game)
             vm.isLaunched = true
         }
