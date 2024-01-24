@@ -11,8 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import fr.uha.grainca.esc.database.ESportDatabase
 import fr.uha.grainca.esc.ui.game.CreateGameScreen
+import dagger.hilt.android.AndroidEntryPoint
+import fr.uha.grainca.esc.ui.game.ListGamesScreen
 import fr.uha.grainca.esc.ui.theme.ESportConnectTheme
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +25,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    CreateGameScreen()
+                    ListGamesScreen()
                 }
             }
         }
