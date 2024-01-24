@@ -19,7 +19,7 @@ class GameRepository (private val gameDAO: GameDAO) {
         return@withContext gameDAO.create(game)
     }
 
-    suspend fun update (game: Game) : Long = withContext(Dispatchers.IO) {
+    suspend fun update (oldGame: Game, game: Game) : Long = withContext(Dispatchers.IO) {
         return@withContext gameDAO.update(game)
     }
 
@@ -28,6 +28,6 @@ class GameRepository (private val gameDAO: GameDAO) {
     }
 
     suspend fun delete (game: Game) = withContext(Dispatchers.IO) {
-        return@withContext gameDAO.delete(game)
+        gameDAO.delete(game)
     }
 }

@@ -188,4 +188,18 @@ class GameViewModel @Inject constructor (
         _id.emit(pid)
     }
 
+    fun save() = viewModelScope.launch {
+        if (_initialGameState.value !is GameState.Success) return@launch
+        val oldGame = _initialGameState.value as GameState.Success
+        val game = Game (
+            _id.value,
+            _nameState.value.current!!,
+            _creatorState.value.current!!,
+            _releaseDateState.value.current!!,
+            _genreState.value.current!!,
+            _descriptionState.value.current!!,
+        )
+        repository.update(oldGame.game, game)
+    }
+
 }
