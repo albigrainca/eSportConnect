@@ -10,7 +10,7 @@ data class Game(
     val pid: Long = 0,
     val name: String,
     val creator: String,
-    val releaseDate: Date,
+    val releaseDate: Date = Date(),
     val genre: Genre,
     val description: String
 ){}
