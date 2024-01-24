@@ -114,7 +114,9 @@ fun GameItem(game: Game) {
         supportingContent = {
             Row () {
                 Text(game.creator, fontSize = 16.sp, fontWeight = FontWeight.Bold)
-//                Text(game.releaseDate.toString(), fontSize = 16.sp, fontWeight = FontWeight.Bold)
+            }
+            Row () {
+                Text(game.releaseDate.toString(), fontSize = 16.sp, fontWeight = FontWeight.Bold)
             }
         }
     )
