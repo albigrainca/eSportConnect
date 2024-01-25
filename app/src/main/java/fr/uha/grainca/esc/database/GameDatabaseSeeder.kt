@@ -1,5 +1,6 @@
 package fr.uha.grainca.esc.database
 
+import fr.uha.grainca.esc.model.Event
 import fr.uha.grainca.esc.model.Game
 import fr.uha.grainca.esc.model.Genre
 import java.util.Calendar
@@ -20,8 +21,15 @@ class GameDatabaseSeeder {
         return ids
     }
 
+    private suspend fun feedEvents(pids: LongArray) {
+        val dao: EventDAO = ESportDatabase.get().eventDAO
+        val event = getRandomEvent(pids.get(0))
+        val eid = dao.create(event)
+    }
+
     suspend fun populate() {
         val pids = feedGames()
+        feedEvents(pids)
     }
 
     suspend fun clear() {
@@ -87,17 +95,29 @@ class GameDatabaseSeeder {
         return calendar.time
     }
 
+    private fun getRandomFutureDateWithinOneYear(): Date {
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_YEAR, random.nextInt(365))
+        return calendar.time
+    }
+
     private fun getRandomGenre(): Genre {
         val genres = Genre.values()
         return genres[random.nextInt(genres.size)]
     }
 
-    private fun geRandomName(names: Array<String>): String {
+    private fun getRandomName(names: Array<String>): String {
         return names.get(random.nextInt(names.size))
     }
 
-    private fun getRandomGameEvent(): String {
-        return geRandomName(gameEvent)
+    private fun getRandomEvent(mainGameId: Long): Event {
+        return Event(
+            0,
+            getRandomName(gameEvent),
+            getRandomFutureDateWithinOneYear(),
+            1 + random.nextInt(10),
+            mainGameId
+        )
     }
 
     private fun getRandomGame(): Game {
