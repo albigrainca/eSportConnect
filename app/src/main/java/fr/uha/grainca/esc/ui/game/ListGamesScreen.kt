@@ -10,9 +10,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.Casino
 import androidx.compose.material.icons.outlined.DoNotDisturb
 import androidx.compose.material.icons.outlined.Error
-import androidx.compose.material.icons.outlined.Female
-import androidx.compose.material.icons.outlined.Male
-import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -53,7 +50,7 @@ fun ListGamesScreen(
     onCreate : () -> Unit,
     onEdit : (g : Game) -> Unit,
     ) {
-    val game = vm.games.collectAsStateWithLifecycle(initialValue = emptyList())
+    val games = vm.games.collectAsStateWithLifecycle(initialValue = emptyList())
 
     val menuEntries = listOf(
         AppMenuEntry.OverflowEntry(title = R.string.populate, listener = {vm.feed() } ),
@@ -77,8 +74,8 @@ fun ListGamesScreen(
     ) {
         innerPadding -> LazyColumn(modifier = Modifier.padding(innerPadding)) {
             items(
-                items = game.value,
-                key = { game -> game }
+                items = games.value,
+                key = { game -> game.pid}
             ) { item ->
                 SwipeableItem(
                     onEdit = { onEdit(item)},
