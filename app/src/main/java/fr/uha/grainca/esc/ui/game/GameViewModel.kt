@@ -89,6 +89,7 @@ class GameViewModel @Inject constructor (
                 _releaseDateState.emit(FieldWrapper.buildReleaseDate(uiState.value, g.releaseDate))
                 _genreState.emit(FieldWrapper.buildGenre(uiState.value, g.genre))
                 _descriptionState.emit(FieldWrapper.buildDescription(uiState.value, g.description))
+                _pictureState.emit(FieldWrapper.buildPicture(uiState.value, g.picture))
                 GameState.Success(game = g)
             } else {
                 GameState.Error
@@ -103,6 +104,7 @@ class GameViewModel @Inject constructor (
         val releaseDateState: FieldWrapper<Date>,
         val genreState: FieldWrapper<Genre?>,
         val descriptionState: FieldWrapper<String>,
+        val pictureState : FieldWrapper<Uri?>,
     ) {
         private fun _isModified (): Boolean? {
             if (initialState !is GameState.Success) return null
@@ -111,6 +113,8 @@ class GameViewModel @Inject constructor (
             if (releaseDateState.current != initialState.game.releaseDate) return true
             if (genreState.current != initialState.game.genre) return true
             if (descriptionState.current != initialState.game.description) return true
+            if (pictureState.current != initialState.game.picture) return true
+            if (pictureState.current != null) return true
             return false
         }
 
@@ -120,6 +124,7 @@ class GameViewModel @Inject constructor (
             if (releaseDateState.errorId != null) return true
             if (genreState.errorId != null) return true
             if (descriptionState.errorId != null) return true
+            if (pictureState.errorId != null) return true
             return false
         }
 
@@ -139,12 +144,13 @@ class GameViewModel @Inject constructor (
     }
 
     val uiState : StateFlow<GameUIState> = combine (
-        _initialGameState, _nameState, _creatorState, _releaseDateState, _genreState, _descriptionState
-    ) { i, n, c, r, g, d -> GameUIState(i, n, c, r, g, d) }.stateIn(
+        _initialGameState, _nameState, _creatorState, _releaseDateState, _genreState, _descriptionState, _pictureState
+    ) { i, n, c, r, g, d, p -> GameUIState(i, n, c, r, g, d, p) }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = GameUIState(
             GameState.Loading,
+            FieldWrapper(),
             FieldWrapper(),
             FieldWrapper(),
             FieldWrapper(),
@@ -159,6 +165,7 @@ class GameViewModel @Inject constructor (
         data class ReleaseDateChanged(val newValue: Date): UIEvent()
         data class GenreChanged(val newValue: Genre?): UIEvent()
         data class DescriptionChanged(val newValue: String): UIEvent()
+        data class PictureChanged(val newValue: Uri?): UIEvent()
     }
 
     data class GameUICallback (
@@ -174,6 +181,7 @@ class GameViewModel @Inject constructor (
                     is UIEvent.ReleaseDateChanged -> _releaseDateState.emit(FieldWrapper.buildReleaseDate(uiState.value, it.newValue))
                     is UIEvent.GenreChanged -> _genreState.emit(FieldWrapper.buildGenre(uiState.value, it.newValue))
                     is UIEvent.DescriptionChanged -> _descriptionState.emit(FieldWrapper.buildDescription(uiState.value, it.newValue))
+                    is UIEvent.PictureChanged -> _pictureState.emit(FieldWrapper.buildPicture(uiState.value, it.newValue))
                 }
             }
         }
@@ -198,6 +206,7 @@ class GameViewModel @Inject constructor (
             _releaseDateState.value.current!!,
             _genreState.value.current!!,
             _descriptionState.value.current!!,
+            _pictureState.value.current
         )
         repository.update(oldGame.game, game)
     }

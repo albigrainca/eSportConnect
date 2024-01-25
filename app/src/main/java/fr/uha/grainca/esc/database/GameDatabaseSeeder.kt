@@ -107,7 +107,8 @@ class GameDatabaseSeeder {
             creators[random.nextInt(creators.size)],
             getRandomDate(),
             getRandomGenre(),
-            descriptions[random.nextInt(descriptions.size)]
+            descriptions[random.nextInt(descriptions.size)],
+            null
         )
     }
 

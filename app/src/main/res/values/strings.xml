@@ -17,4 +17,14 @@
     <string name="game_list">List of Games</string>
     <string name="save">save</string>
     <string name="game_create">Create Game</string>
+    <string name="action_games">games route</string>
+    <string name="action_events">events route</string>
+    <string name="action_game_create">Create game</string>
+    <string name="action_game_edit">Edit game</string>
+    <string name="action_event_create">Create event</string>
+    <string name="action_event_edit">Edit event</string>
+    <string name="game_edit">Game edit</string>
+    <string name="populate">Populate</string>
+    <string name="clean">Clean</string>
+    <string name="picture">Picture</string>
 </resources>
