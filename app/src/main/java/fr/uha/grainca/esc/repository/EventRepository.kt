@@ -1,13 +1,22 @@
 package fr.uha.grainca.esc.repository
 
+import androidx.annotation.WorkerThread
 import fr.uha.grainca.esc.database.EventDAO
+import fr.uha.grainca.esc.database.GameDAO
+import fr.uha.grainca.esc.model.Comparators
 import fr.uha.grainca.esc.model.Event
+import fr.uha.grainca.esc.model.EventGameAssociation
 import fr.uha.grainca.esc.model.FullEvent
+import fr.uha.grainca.esc.model.Game
+import fr.uha.hassenforder.android.database.DeltaUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
-class EventRepository (private val eventDao : EventDAO)
+class EventRepository (
+    private val eventDao : EventDAO,
+    private val gameDao : GameDAO
+)
 {
     fun getAll () : Flow<List<Event>> {
         return eventDao.getAll()
@@ -17,19 +26,46 @@ class EventRepository (private val eventDao : EventDAO)
         return eventDao.getEventById(id)
     }
 
-    suspend fun create (event : Event) : Long = withContext(Dispatchers.IO) {
-        return@withContext eventDao.create(event)
+    fun getGameById (id : Long) : Flow<Game?> {
+        return gameDao.getGameById(id)
     }
 
-    suspend fun update (oldEvent : Event, event : Event) : Long = withContext(Dispatchers.IO) {
-        return@withContext eventDao.update(event)
+    @WorkerThread
+    suspend fun createEvent(event: Event): Long {
+        return eventDao.upsert(event)
     }
 
-    suspend fun upsert (event : Event) : Long = withContext(Dispatchers.IO) {
-        return@withContext eventDao.upsert(event)
+    @WorkerThread
+    suspend fun saveEvent(oldEvent: FullEvent, newEvent: FullEvent): Long {
+        var eventToSave : Event? = null
+        if (! Comparators.shallowEqualsEvent(oldEvent.event, newEvent.event)) {
+            eventToSave = newEvent.event
+        }
+        val eventId: Long = newEvent.event.eid
+        val delta: DeltaUtil<Game, EventGameAssociation> = object : DeltaUtil<Game, EventGameAssociation>() {
+            override fun getId(input: Game): Long {
+                return input.pid
+            }
+            override fun same(initial: Game, now: Game): Boolean {
+                return true
+            }
+            override fun createFor(input: Game): EventGameAssociation {
+                return EventGameAssociation(eventId, input.pid)
+            }
+        }
+        val oldList = oldEvent.members
+        val newList = newEvent.members
+        delta.calculate(oldList, newList)
+
+        if (eventToSave != null) eventDao.upsert(eventToSave)
+        eventDao.removeEventGame(delta.toRemove)
+        eventDao.addEventGame(delta.toAdd)
+
+        return eventId
     }
 
-    suspend fun delete (event : Event) = withContext(Dispatchers.IO) {
+    suspend fun delete(event: Event) {
         eventDao.delete(event)
+        eventDao.deleteEventGame (event.eid)
     }
 }

@@ -2,13 +2,14 @@ package fr.uha.grainca.esc.repository
 
 import fr.uha.grainca.esc.database.GameDAO
 import fr.uha.grainca.esc.model.Game
+import fr.uha.grainca.esc.model.GameWithDetails
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 class GameRepository (private val gameDAO: GameDAO) {
-    fun getAll () : Flow<List<Game>> {
-        return gameDAO.getAll()
+    fun getAll () : Flow<List<GameWithDetails>> {
+        return gameDAO.getAllWithDetails()
     }
 
     fun getGameById (id : Long) : Flow<Game?> {

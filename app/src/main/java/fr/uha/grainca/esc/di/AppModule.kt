@@ -51,6 +51,7 @@ object AppModule {
     @Provides
     fun provideEventRepository(
 //        dispatcher: CoroutineDispatcher,
-        eventDao: EventDAO
-    ) = EventRepository(eventDao)
+        eventDao: EventDAO,
+        gameDao: GameDAO
+    ) = EventRepository(eventDao, gameDao)
 }
