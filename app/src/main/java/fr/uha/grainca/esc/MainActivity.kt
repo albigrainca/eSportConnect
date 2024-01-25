@@ -12,6 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import fr.uha.grainca.esc.database.ESportDatabase
 import fr.uha.grainca.esc.ui.game.CreateGameScreen
 import dagger.hilt.android.AndroidEntryPoint
+import fr.uha.grainca.esc.ui.EventAppScreen
 import fr.uha.grainca.esc.ui.game.ListGamesScreen
 import fr.uha.grainca.esc.ui.theme.ESportConnectTheme
 
@@ -25,7 +26,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    ListGamesScreen()
+                    EventAppScreen()
                 }
             }
         }
