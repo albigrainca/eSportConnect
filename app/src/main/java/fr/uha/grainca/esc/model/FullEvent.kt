@@ -12,5 +12,5 @@ class FullEvent (
     val mainGame: Game?,
 
     @Relation(parentColumn = "eid", entityColumn = "pid", associateBy = Junction(EventGameAssociation::class))
-    val members: List<Game>,
+    val otherGames: List<Game>,
 )

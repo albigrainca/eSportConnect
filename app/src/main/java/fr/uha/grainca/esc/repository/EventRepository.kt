@@ -53,8 +53,8 @@ class EventRepository (
                 return EventGameAssociation(eventId, input.pid)
             }
         }
-        val oldList = oldEvent.members
-        val newList = newEvent.members
+        val oldList = oldEvent.otherGames
+        val newList = newEvent.otherGames
         delta.calculate(oldList, newList)
 
         if (eventToSave != null) eventDao.upsert(eventToSave)

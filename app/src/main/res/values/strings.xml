@@ -27,4 +27,23 @@
     <string name="populate">Populate</string>
     <string name="clean">Clean</string>
     <string name="picture">Picture</string>
+    <string name="date_must_set">Date must set</string>
+    <string name="date_too_old">Date to old</string>
+    <string name="date_too_far">Date too far</string>
+    <string name="duration_too_short">Duration too short</string>
+    <string name="duration_too_long">Duration too long</string>
+    <string name="main_game_must_known">Main game must be known</string>
+    <string name="other_games_not_empty">Other games cannot be empty</string>
+    <string name="other_games_not_enough">Other games underloaded</string>
+    <string name="other_games_too_much">Otehr games overloaded</string>
+    <string name="title_event_create">Create event</string>
+    <string name="main_game_select">Select a main game</string>
+    <string name="eventname">Name</string>
+    <string name="start_day">Start day</string>
+    <string name="duration">Duration</string>
+    <string name="maingame">Main game</string>
+    <string name="game_select">Game select</string>
+    <string name="otherGames_select">Other games select</string>
+    <string name="event_list">Team list</string>
+    <string name="title_event_edit">Name event edit</string>
 </resources>

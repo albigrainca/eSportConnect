@@ -8,7 +8,7 @@ import java.util.Date
 data class Event (
     @PrimaryKey(autoGenerate = true)
     val eid: Long = 0,
-    val name: String,
+    val name: String = "",
     val startDay: Date = Date(),
     val duration: Int = 0,
     val mainGameId: Long = 0,

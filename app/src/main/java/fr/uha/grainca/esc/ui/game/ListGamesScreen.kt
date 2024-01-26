@@ -1,5 +1,6 @@
 package fr.uha.grainca.esc.ui.game
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -30,6 +31,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import fr.uha.grainca.esc.model.Game
+import fr.uha.grainca.esc.model.GameWithDetails
 import fr.uha.grainca.esc.model.Genre
 import fr.uha.grainca.esc.ui.theme.ESportConnectTheme
 import fr.uha.hassenforder.android.ui.AppMenu
@@ -75,10 +77,10 @@ fun ListGamesScreen(
         innerPadding -> LazyColumn(modifier = Modifier.padding(innerPadding)) {
             items(
                 items = games.value,
-                key = { game -> game.pid}
+                key = { game -> game.game.pid}
             ) { item ->
                 SwipeableItem(
-                    onEdit = { onEdit(item)},
+                    onEdit = { onEdit(item.game)},
                     onDelete = {},
                 ) {
                     GameItem(item)
@@ -90,8 +92,8 @@ fun ListGamesScreen(
 }
 
 @Composable
-fun GameItem(game: Game) {
-    val genre : ImageVector = when(game.genre) {
+fun GameItem(game: GameWithDetails) {
+    val genre : ImageVector = when(game.game.genre) {
         Genre.ACTION -> Icons.Outlined.DoNotDisturb
         Genre.ADVENTURE -> Icons.Outlined.DoNotDisturb
         Genre.PUZZLE -> Icons.Outlined.DoNotDisturb
@@ -112,12 +114,12 @@ fun GameItem(game: Game) {
     ListItem (
         headlineContent = {
             Row() {
-                Text(game.name, modifier = Modifier.padding(end = 4.dp))
+                Text(game.game.name, modifier = Modifier.padding(end = 4.dp))
             }
         },
         leadingContent = {
             AsyncImage(
-                model = game.picture,
+                model = game.game.picture,
                 modifier = Modifier.size(64.dp),
                 contentDescription = "Selected image",
                 error = rememberVectorPainter(Icons.Outlined.Error),
@@ -129,31 +131,16 @@ fun GameItem(game: Game) {
             Icon(imageVector = genre, contentDescription = null, modifier = Modifier.size(48.dp))
         },
         supportingContent = {
-            Row () {
-                Text(game.creator, fontSize = 16.sp, fontWeight = FontWeight.Bold)
-            }
-            Row () {
-                Text(game.releaseDate.toString(), fontSize = 16.sp, fontWeight = FontWeight.Bold)
+            Column {
+                Row () {
+                    Text(game.game.creator, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                }
+                Row () {
+                    Text(game.game.releaseDate.toString(), fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                }
+                Text(game.mainGameCount.toString(), fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                Text(game.otherGameCount.toString(), fontSize = 16.sp, fontWeight = FontWeight.Bold)
             }
         }
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ListPreview() {
-    ESportConnectTheme {
-        val calendar = Calendar.getInstance()
-        calendar.set(2023, Calendar.SEPTEMBER, 27)
-        val specificDate = calendar.time
-
-        GameItem(Game(
-            0,
-            "Counter-Strike 2",
-            "Valve",
-            specificDate,
-            Genre.ACTION,
-            "Counter-Strike 2 est un jeu vidéo de tir à la première personne multijoueur en ligne",
-            null))
-    }
 }

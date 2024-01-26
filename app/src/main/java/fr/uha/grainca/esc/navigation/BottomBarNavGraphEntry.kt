@@ -75,7 +75,7 @@ fun BottomNavGraph (
         modifier = modifier
     ) {
         gamesNavGraph(navController = navController)
-//        eventNavGraph(navController = navController)
+        eventsNavGraph(navController = navController)
     }
 }
 
