@@ -9,7 +9,7 @@ class Comparators {
             if (oldGame == null && newGame != null) return false
             oldGame as Game
             newGame as Game
-            if (oldGame.pid != newGame.pid) return false
+            if (oldGame.gid != newGame.gid) return false
             return true
         }
 
@@ -21,11 +21,11 @@ class Comparators {
             newGames as List<Game>
             if (oldGames.size != newGames.size) return false
             val oldMap = mutableSetOf<Long>()
-            oldGames.forEach { p -> oldMap.add(p.pid) }
-            newGames.forEach { p -> if (! oldMap.contains(p.pid)) return false }
+            oldGames.forEach { p -> oldMap.add(p.gid) }
+            newGames.forEach { p -> if (! oldMap.contains(p.gid)) return false }
             val newMap = mutableSetOf<Long>()
-            newGames.forEach { p -> newMap.add(p.pid) }
-            oldGames.forEach { p -> if (! newMap.contains(p.pid)) return false }
+            newGames.forEach { p -> newMap.add(p.gid) }
+            oldGames.forEach { p -> if (! newMap.contains(p.gid)) return false }
             return true
         }
 

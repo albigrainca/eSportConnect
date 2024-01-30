@@ -21,15 +21,15 @@ class GameDatabaseSeeder {
         return ids
     }
 
-    private suspend fun feedEvents(pids: LongArray) {
+    private suspend fun feedEvents(gids: LongArray) {
         val dao: EventDAO = ESportDatabase.get().eventDAO
-        val event = getRandomEvent(pids.get(0))
+        val event = getRandomEvent(gids.get(0))
         val eid = dao.create(event)
     }
 
     suspend fun populate() {
-        val pids = feedGames()
-        feedEvents(pids)
+        val gids = feedGames()
+        feedEvents(gids)
     }
 
     suspend fun clear() {

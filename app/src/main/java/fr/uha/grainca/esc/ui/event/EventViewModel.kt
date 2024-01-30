@@ -125,7 +125,7 @@ class EventViewModel @Inject constructor (
             .map {
                 var og: MutableList<Game> = mutableListOf()
                 _otherGamesState.value.current?.forEach { gg ->
-                    if (gg.pid != it) og.add(gg)
+                    if (gg.gid != it) og.add(gg)
                 }
                 _otherGamesState.emit(FieldWrapper.buildOtherGames(uiState.value, og))
             }
@@ -218,19 +218,19 @@ class EventViewModel @Inject constructor (
                         else _mainGameState.emit(FieldWrapper.buildMainGame(uiState.value, null))
                     }
                     is UIEvent.OtherGamesAdded -> _addOtherGameId.emit(it.newValue)
-                    is UIEvent.OtherGamesDeleted -> _delOtherGameId.emit(it.newValue.pid)
+                    is UIEvent.OtherGamesDeleted -> _delOtherGameId.emit(it.newValue.gid)
                 }
             }
         }
     )
 
-    fun edit(pid: Long) = viewModelScope.launch {
-        _eventId.emit(pid)
+    fun edit(gid: Long) = viewModelScope.launch {
+        _eventId.emit(gid)
     }
 
     fun create(event: Event) = viewModelScope.launch {
-        val pid : Long = repository.createEvent(event)
-        _eventId.emit(pid)
+        val gid : Long = repository.createEvent(event)
+        _eventId.emit(gid)
     }
 
     fun save() = viewModelScope.launch {
@@ -242,7 +242,7 @@ class EventViewModel @Inject constructor (
                 name = _nameState.value.current!!,
                 startDay = _startDayState.value.current!!,
                 duration = _durationState.value.current!!,
-                mainGameId = _mainGameState.value.current?.pid ?: 0
+                mainGameId = _mainGameState.value.current?.gid ?: 0
             ),
             mainGame = _mainGameState.value.current,
             otherGames = _otherGamesState.value.current!!

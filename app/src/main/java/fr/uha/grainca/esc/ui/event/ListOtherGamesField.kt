@@ -34,7 +34,7 @@ fun ListOtherGamesField(
     value : List<Game>?,
     modifier : Modifier = Modifier,
     @StringRes label: Int? = null,
-    onAdd: (pid : Long) -> Unit,
+    onAdd: (gid : Long) -> Unit,
     onDelete: (game : Game) -> Unit,
     errorId : Int?,
 ) {
@@ -43,7 +43,7 @@ fun ListOtherGamesField(
     if (showDialog.value) {
         GamePicker(
             title = R.string.otherGames_select,
-            onSelect = { showDialog.value = false; if (it != null) onAdd(it.pid) }
+            onSelect = { showDialog.value = false; if (it != null) onAdd(it.gid) }
         )
     }
 
@@ -76,7 +76,7 @@ fun ListOtherGamesField(
             ) {
                 items(
                     items = value?: listOf(),
-                    key = { game: Game -> game.pid }
+                    key = { game: Game -> game.gid }
                 ) { item : Game ->
                     Divider(color = MaterialTheme.colorScheme.onBackground)
                     SwipeableItem(

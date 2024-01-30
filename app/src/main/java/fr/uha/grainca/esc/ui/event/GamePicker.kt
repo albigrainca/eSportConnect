@@ -61,7 +61,7 @@ fun GamePicker (
             ) {
                 items(
                     items = list.value,
-                    key = { game -> game.pid }
+                    key = { game -> game.gid }
                 ) {
                         item -> GameItem(item, onSelect)
                 }

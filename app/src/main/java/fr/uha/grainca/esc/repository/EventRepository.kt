@@ -44,13 +44,13 @@ class EventRepository (
         val eventId: Long = newEvent.event.eid
         val delta: DeltaUtil<Game, EventGameAssociation> = object : DeltaUtil<Game, EventGameAssociation>() {
             override fun getId(input: Game): Long {
-                return input.pid
+                return input.gid
             }
             override fun same(initial: Game, now: Game): Boolean {
                 return true
             }
             override fun createFor(input: Game): EventGameAssociation {
-                return EventGameAssociation(eventId, input.pid)
+                return EventGameAssociation(eventId, input.gid)
             }
         }
         val oldList = oldEvent.otherGames

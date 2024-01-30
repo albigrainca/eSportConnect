@@ -77,7 +77,7 @@ fun ListGamesScreen(
         innerPadding -> LazyColumn(modifier = Modifier.padding(innerPadding)) {
             items(
                 items = games.value,
-                key = { game -> game.game.pid}
+                key = { game -> game.game.gid}
             ) { item ->
                 SwipeableItem(
                     onEdit = { onEdit(item.game)},

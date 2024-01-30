@@ -25,13 +25,13 @@ import fr.uha.hassenforder.team.R
 @Composable
 fun EditGameScreen (
     vm : GameViewModel = hiltViewModel(),
-    pid : Long,
+    gid : Long,
     back : () -> Unit
 ) {
     val state by vm.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        vm.edit(pid)
+        vm.edit(gid)
     }
 
     val menuEntries = listOf (

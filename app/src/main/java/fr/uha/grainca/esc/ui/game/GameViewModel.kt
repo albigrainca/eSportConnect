@@ -187,13 +187,13 @@ class GameViewModel @Inject constructor (
         }
     )
 
-    fun edit (pid: Long) = viewModelScope.launch {
-        _id.emit(pid)
+    fun edit (gid: Long) = viewModelScope.launch {
+        _id.emit(gid)
     }
 
     fun create(game: Game) = viewModelScope.launch {
-        val pid : Long = repository.create(game)
-        _id.emit(pid)
+        val gid : Long = repository.create(game)
+        _id.emit(gid)
     }
 
     fun save() = viewModelScope.launch {

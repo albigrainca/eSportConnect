@@ -23,7 +23,7 @@ fun SuccessEventScreen(
     if (showDialog.value) {
         GamePicker(
             title = R.string.main_game_select,
-            onSelect = { showDialog.value = false; if (it != null) uiCB.onEvent(EventViewModel.UIEvent.MainGameChanged(it.pid))}
+            onSelect = { showDialog.value = false; if (it != null) uiCB.onEvent(EventViewModel.UIEvent.MainGameChanged(it.gid))}
         )
     }
 
