@@ -31,12 +31,12 @@ class EventRepository (
     }
 
     @WorkerThread
-    suspend fun createEvent(event: Event): Long {
-        return eventDao.upsert(event)
+    suspend fun createEvent(event: Event): Long = withContext(Dispatchers.IO) {
+        return@withContext eventDao.upsert(event)
     }
 
     @WorkerThread
-    suspend fun saveEvent(oldEvent: FullEvent, newEvent: FullEvent): Long {
+    suspend fun saveEvent(oldEvent: FullEvent, newEvent: FullEvent): Long = withContext(Dispatchers.IO) {
         var eventToSave : Event? = null
         if (! Comparators.shallowEqualsEvent(oldEvent.event, newEvent.event)) {
             eventToSave = newEvent.event
@@ -61,10 +61,10 @@ class EventRepository (
         eventDao.removeEventGame(delta.toRemove)
         eventDao.addEventGame(delta.toAdd)
 
-        return eventId
+        return@withContext eventId
     }
 
-    suspend fun delete(event: Event) {
+    suspend fun delete(event: Event) = withContext(Dispatchers.IO) {
         eventDao.delete(event)
         eventDao.deleteEventGame (event.eid)
     }

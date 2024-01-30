@@ -32,7 +32,7 @@ import fr.uha.hassenforder.team.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListEventsScreen(
-    vm : ListEventsViewModel = hiltViewModel(),
+    vm: ListEventsViewModel = hiltViewModel(),
     onCreate : () -> Unit,
     onEdit : (p : Event) -> Unit,
 ) {
