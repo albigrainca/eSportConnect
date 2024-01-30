@@ -1,5 +1,6 @@
 package fr.uha.grainca.esc.model
 
+import android.net.Uri
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.Date
@@ -10,7 +11,8 @@ data class Game(
     val pid: Long = 0,
     val name: String,
     val creator: String,
-    val releaseDate: Date,
+    val releaseDate: Date = Date(),
     val genre: Genre,
-    val description: String
+    val description: String,
+    val picture : Uri?
 ){}

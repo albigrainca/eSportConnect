@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import fr.uha.grainca.esc.model.Game
+import fr.uha.grainca.esc.model.GameWithDetails
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -13,6 +14,13 @@ interface GameDAO {
 
     @Query("SELECT * FROM games")
     fun getAll () : Flow<List<Game>>
+
+    @Query("SELECT * " +
+            ", (SELECT COUNT(*) FROM events E WHERE E.mainGameId = G.pid) AS mainGameCount" +
+            ", (SELECT COUNT(*) FROM egas EGA WHERE EGA.pid = G.pid) AS otherGameCount" +
+            " FROM games AS G")
+    fun getAllWithDetails () : Flow<List<GameWithDetails>>
+
 
     @Query("SELECT * FROM games WHERE pid = :id")
     fun getGameById (id : Long) : Flow<Game?>
