@@ -10,9 +10,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
+import fr.uha.grainca.esc.ui.game.GameViewModel
 import fr.uha.hassenforder.android.ui.OutlinedDateField
+import fr.uha.hassenforder.android.ui.OutlinedDateFieldGame
 import fr.uha.hassenforder.android.ui.OutlinedSpinnerField
 import fr.uha.hassenforder.team.R
+import java.util.Date
 
 @Composable
 fun SuccessEventScreen(
@@ -37,8 +40,10 @@ fun SuccessEventScreen(
             supportingText = { if (event.name.errorId != null) Text(stringResource(id = event.name.errorId)) },
             isError = event.name.errorId != null,
         )
-        OutlinedDateField(
-            value = event.startDay.current,
+        OutlinedDateFieldGame(
+            value = event.startDay.current ?: Date(),
+            daysBefore = 7,
+            daysAfter = null,
             onValueChange = { uiCB.onEvent(EventViewModel.UIEvent.StartDayChanged(it)) },
             modifier = Modifier.fillMaxWidth(),
             label = R.string.start_day,
@@ -62,6 +67,7 @@ fun SuccessEventScreen(
             value = event.otherGames.current,
             onAdd = { uiCB.onEvent(EventViewModel.UIEvent.OtherGamesAdded(it)) },
             onDelete = { uiCB.onEvent(EventViewModel.UIEvent.OtherGamesDeleted(it)) },
+            label = R.string.othergames,
             errorId = event.otherGames.errorId
         )
     }

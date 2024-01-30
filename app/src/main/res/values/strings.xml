@@ -46,4 +46,5 @@
     <string name="otherGames_select">Other games select</string>
     <string name="event_list">Team list</string>
     <string name="title_event_edit">Name event edit</string>
+    <string name="othergames">Other games</string>
 </resources>
