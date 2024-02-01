@@ -13,4 +13,7 @@ class FullEvent (
 
     @Relation(parentColumn = "eid", entityColumn = "gid", associateBy = Junction(EventGameAssociation::class))
     val otherGames: List<Game>,
+
+    @Relation(parentColumn = "eid", entityColumn = "pid", associateBy = Junction(EventParticipantAssociation::class))
+    val guests: List<Participant>,
 )

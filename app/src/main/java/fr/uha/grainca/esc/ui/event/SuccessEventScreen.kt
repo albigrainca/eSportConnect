@@ -70,6 +70,13 @@ fun SuccessEventScreen(
             label = R.string.othergames,
             errorId = event.otherGames.errorId
         )
+        ListGuestField(
+            value = event.guests.current,
+            onAdd = { uiCB.onEvent(EventViewModel.UIEvent.GuestsAdded(it)) },
+            onDelete = { uiCB.onEvent(EventViewModel.UIEvent.GuestsDeleted(it)) },
+            label = R.string.guests,
+            errorId = event.guests.errorId
+        )
     }
 
 }

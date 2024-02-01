@@ -8,13 +8,17 @@ import androidx.room.Room
 import androidx.room.TypeConverters
 import fr.uha.grainca.esc.model.Event
 import fr.uha.grainca.esc.model.EventGameAssociation
+import fr.uha.grainca.esc.model.EventParticipantAssociation
+import fr.uha.grainca.esc.model.Participant
 import fr.uha.hassenforder.android.database.DatabaseTypeConverters
 
 @Database(
     entities = [
         Game::class,
+        Participant::class,
         Event::class,
-        EventGameAssociation::class
+        EventGameAssociation::class,
+        EventParticipantAssociation::class
     ],
     version=1,
     exportSchema = false
@@ -24,6 +28,7 @@ abstract class ESportDatabase : RoomDatabase() {
 
     abstract val gameDAO : GameDAO
     abstract val eventDAO : EventDAO
+    abstract val participantDAO: ParticipantDAO
     companion object {
         private lateinit var instance : ESportDatabase
 

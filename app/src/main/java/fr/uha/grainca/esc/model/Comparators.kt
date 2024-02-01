@@ -21,11 +21,11 @@ class Comparators {
             newGames as List<Game>
             if (oldGames.size != newGames.size) return false
             val oldMap = mutableSetOf<Long>()
-            oldGames.forEach { p -> oldMap.add(p.gid) }
-            newGames.forEach { p -> if (! oldMap.contains(p.gid)) return false }
+            oldGames.forEach { g -> oldMap.add(g.gid) }
+            newGames.forEach { g -> if (! oldMap.contains(g.gid)) return false }
             val newMap = mutableSetOf<Long>()
-            newGames.forEach { p -> newMap.add(p.gid) }
-            oldGames.forEach { p -> if (! newMap.contains(p.gid)) return false }
+            newGames.forEach { g -> newMap.add(g.gid) }
+            oldGames.forEach { g -> if (! newMap.contains(g.gid)) return false }
             return true
         }
 
@@ -40,6 +40,22 @@ class Comparators {
             if (safeNew.startDay != safeOld.startDay) return false
             if (safeNew.duration != safeOld.duration) return false
             if (safeNew.mainGameId != safeOld.mainGameId) return false
+            return true
+        }
+
+        fun shallowEqualsListParticipants(oldParticipants: List<Participant>?, newParticipants: List<Participant>?): Boolean {
+            if (oldParticipants == null && newParticipants == null) return true
+            if (oldParticipants != null && newParticipants == null) return false
+            if (oldParticipants == null && newParticipants != null) return false
+            oldParticipants as List<Participant>
+            newParticipants as List<Participant>
+            if (oldParticipants.size != newParticipants.size) return false
+            val oldMap = mutableSetOf<Long>()
+            oldParticipants.forEach { p -> oldMap.add(p.pid) }
+            newParticipants.forEach { p -> if (! oldMap.contains(p.pid)) return false }
+            val newMap = mutableSetOf<Long>()
+            newParticipants.forEach { p -> newMap.add(p.pid) }
+            oldParticipants.forEach { p -> if (! newMap.contains(p.pid)) return false }
             return true
         }
 
