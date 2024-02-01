@@ -42,8 +42,8 @@ fun SuccessParticipantScreen (
             value = participant.ageState.current.toString(),
             onValueChange = { try { val v : Int = it.toInt(); uiCB.onEvent(ParticipantViewModel.UIEvent.AgeChanged(v)) } catch (e:Exception) {} },
             label = R.string.age,
-            option_views = stringArrayResource(id = R.array.durations),
-            option_values = stringArrayResource(id = R.array.durations),
+            option_views = stringArrayResource(id = R.array.age),
+            option_values = stringArrayResource(id = R.array.age),
             errorId = participant.ageState.errorId,
         )
         OutlinedSpinnerFieldEnum(
