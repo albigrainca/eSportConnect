@@ -96,7 +96,7 @@ fun ParticipantItem(participant: ParticipantWithDetails) {
     ListItem (
         headlineContent = {
             Row() {
-                Text(participant.participant.gamerName, modifier = Modifier.padding(end = 4.dp))
+                Text(participant.participant.gamerName, modifier = Modifier.padding(end = 4.dp), fontWeight = FontWeight.ExtraBold)
             }
         },
 
@@ -107,12 +107,17 @@ fun ParticipantItem(participant: ParticipantWithDetails) {
         supportingContent = {
             Column {
                 Row () {
+                    Text("Age: ", fontSize = 16.sp, fontWeight = FontWeight.Bold)
                     Text(participant.participant.age.toString(), fontSize = 16.sp, fontWeight = FontWeight.Bold)
                 }
                 Row () {
+                    Text("Level: ", fontSize = 16.sp, fontWeight = FontWeight.Bold)
                     Text(participant.participant.level.name, fontSize = 16.sp, fontWeight = FontWeight.Bold)
                 }
-                Text(participant.guestCount.toString(), fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                Row {
+                    Text("Guest Count: ", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                    Text(participant.guestCount.toString(), fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                }
             }
         }
     )
