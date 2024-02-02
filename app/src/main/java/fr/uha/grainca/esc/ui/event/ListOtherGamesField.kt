@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -40,14 +41,22 @@ fun ListOtherGamesField(
 ) {
     val showDialog = remember { mutableStateOf(false) }
 
+    val existingGameIds = value?.map { it.gid } ?: listOf()
+
     if (showDialog.value) {
         GamePicker(
             title = R.string.otherGames_select,
-            onSelect = { showDialog.value = false; if (it != null) onAdd(it.gid) }
+            onSelect = {
+                showDialog.value = false
+                if (it != null && it.gid !in existingGameIds) onAdd(it.gid)
+            },
+            excludeGameIds = existingGameIds
         )
     }
 
     Scaffold(
+        modifier = modifier
+            .fillMaxHeight(0.5f),
         floatingActionButton = {
             FloatingActionButton(onClick = { showDialog.value = true }) {
                 Icon(Icons.Filled.Add, contentDescription = "add")

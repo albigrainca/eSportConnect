@@ -44,7 +44,7 @@
     <string name="maingame">Main game</string>
     <string name="game_select">Game select</string>
     <string name="otherGames_select">Other games select</string>
-    <string name="event_list">Team list</string>
+    <string name="event_list">List of Events</string>
     <string name="title_event_edit">Name event edit</string>
     <string name="othergames">Other games</string>
     <string name="invalid_age_too_young">Too young</string>

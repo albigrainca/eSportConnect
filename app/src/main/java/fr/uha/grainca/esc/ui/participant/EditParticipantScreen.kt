@@ -39,7 +39,7 @@ fun EditParticipantScreen (
             title = R.string.save,
             icon = Icons.Filled.Save,
             enabled = state.isSavable(),
-            listener = { vm.save() }
+            listener = { vm.save(); back() }
         )
     )
 

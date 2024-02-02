@@ -61,8 +61,17 @@ fun GamePicker (
     vm: GamePickerViewModel = hiltViewModel(),
     @StringRes title : Int?,
     onSelect: (game : Game?) -> Unit,
+    excludeGameIds: List<Long> = listOf(),
 ) {
     val list = vm.games.collectAsStateWithLifecycle(initialValue = emptyList())
+
+    val filteredGames = if (excludeGameIds.isNotEmpty()) {
+        list.value.filterNot { excludeGameIds.contains(it.gid) }
+    } else {
+        list.value
+    }
+
+
     Dialog(onDismissRequest = { onSelect(null) }) {
         Scaffold(
             topBar = {
@@ -75,7 +84,7 @@ fun GamePicker (
                 modifier = Modifier.padding(innerPadding)
             ) {
                 items(
-                    items = list.value,
+                    items = filteredGames,
                     key = { game -> game.gid }
                 ) {
                         item -> GameItem(item, onSelect)
@@ -87,24 +96,6 @@ fun GamePicker (
 
 @Composable
 private fun GameItem (game: Game, onSelect: (game : Game?) -> Unit) {
-    val genre : ImageVector =
-        when (game.genre) {
-            Genre.ACTION -> Icons.Filled.FlashOn
-            Genre.ADVENTURE -> Icons.Filled.Explore
-            Genre.PUZZLE -> Icons.Filled.Extension
-            Genre.SPORTS -> Icons.Filled.SportsSoccer
-            Genre.STRATEGY -> Icons.Filled.Lightbulb
-            Genre.RPG -> Icons.Filled.Password
-            Genre.SIMULATION -> Icons.Filled.Build
-            Genre.RACING -> Icons.Filled.DirectionsCar
-            Genre.FIGHTING -> Icons.Filled.FitnessCenter
-            Genre.HORROR -> Icons.Filled.VisibilityOff
-            Genre.PLATFORMER -> Icons.Filled.Stairs
-            Genre.SHOOTER -> Icons.Filled.Gesture
-            Genre.MMO -> Icons.Filled.Group
-            Genre.MUSIC -> Icons.Filled.MusicNote
-            Genre.ARCADE -> Icons.Filled.Games
-        }
     ListItem (
         modifier = Modifier
             .padding(5.dp)
@@ -115,31 +106,5 @@ private fun GameItem (game: Game, onSelect: (game : Game?) -> Unit) {
                 Text(game.name, modifier = Modifier.padding(end = 8.dp))
             }
         },
-        /*
-
-                        supportingContent = {
-                            Row() {
-                                Text(game.description, fontSize = 16.sp, fontWeight = FontWeight.Bold)
-                            }
-                },
-                 */
-        /*
-                leadingContent = {
-                    if (game.picture != null) {
-                        AsyncImage(
-                            model = game.picture,
-                            modifier = Modifier.size(64.dp),
-                            contentDescription = null,
-                            error = rememberVectorPainter(Icons.Outlined.Error),
-                            placeholder = rememberVectorPainter(Icons.Outlined.Casino),
-                        )
-                    }
-        },
-         */
-        /*
-                trailingContent = {
-                    Icon(imageVector = genre, contentDescription = "genre", modifier = Modifier.size(48.dp) )
-                },
-         */
     )
 }

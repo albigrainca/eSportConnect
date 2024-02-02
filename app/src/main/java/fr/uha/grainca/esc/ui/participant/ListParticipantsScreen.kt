@@ -73,7 +73,7 @@ fun ListParticipantsScreen(
         ) { item ->
             SwipeableItem(
                 onEdit = { onEdit(item.participant)},
-                onDelete = {},
+                onDelete = { vm.delete(item.participant) },
             ) {
                 ParticipantItem(item)
             }

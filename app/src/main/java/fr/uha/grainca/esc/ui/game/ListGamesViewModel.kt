@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.uha.grainca.esc.database.GameDatabaseSeeder
+import fr.uha.grainca.esc.model.Game
 import fr.uha.grainca.esc.repository.GameRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,6 +26,10 @@ class ListGamesViewModel @Inject constructor(
         withContext(Dispatchers.IO) {
             GameDatabaseSeeder().clear()
         }
+    }
+
+    fun delete(game: Game) = viewModelScope.launch {
+        repository.delete(game)
     }
 
     val games = repository.getAll()
