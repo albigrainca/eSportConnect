@@ -65,7 +65,7 @@ fun ListEventsScreen(
         ) {
                 item -> SwipeableItem (
             onEdit = { onEdit(item) },
-            onDelete = {},
+            onDelete = { vm.delete(item) },
         ) {
             eventItem(item)
         }

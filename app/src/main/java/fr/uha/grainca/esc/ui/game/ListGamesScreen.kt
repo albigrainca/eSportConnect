@@ -99,7 +99,7 @@ fun ListGamesScreen(
             ) { item ->
                 SwipeableItem(
                     onEdit = { onEdit(item.game)},
-                    onDelete = {},
+                    onDelete = { vm.delete(item.game) },
                 ) {
                     GameItem(item)
                 }
