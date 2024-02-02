@@ -42,10 +42,16 @@ fun ListGuestField(
 ) {
     val showDialog = remember { mutableStateOf(false) }
 
+    val existingParticipantsIds = value?.map { it.pid } ?: listOf()
+
     if (showDialog.value) {
         ParticipantPicker(
             title = R.string.guest_select,
-            onSelect = { showDialog.value = false; if (it != null) onAdd(it.pid) }
+            onSelect = {
+                showDialog.value = false
+                if (it != null && it.pid !in existingParticipantsIds) onAdd(it.pid)
+            },
+            excludeParticipantIds = existingParticipantsIds
         )
     }
 

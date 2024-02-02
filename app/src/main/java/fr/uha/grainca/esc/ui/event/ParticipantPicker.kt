@@ -53,8 +53,17 @@ fun ParticipantPicker (
     vm: ParticipantPickerViewModel = hiltViewModel(),
     @StringRes title : Int?,
     onSelect: (participant: Participant?) -> Unit,
-) {
+    excludeParticipantIds: List<Long> = listOf(),
+
+    ) {
     val list = vm.partcipants.collectAsStateWithLifecycle(initialValue = emptyList())
+
+    val filteredPaticipants = if (excludeParticipantIds.isNotEmpty()) {
+        list.value.filterNot { excludeParticipantIds.contains(it.pid) }
+    } else {
+        list.value
+    }
+
     Dialog(onDismissRequest = { onSelect(null) }) {
         Scaffold(
             topBar = {
@@ -67,7 +76,7 @@ fun ParticipantPicker (
                 modifier = Modifier.padding(innerPadding)
             ) {
                 items(
-                    items = list.value,
+                    items = filteredPaticipants,
                     key = { participant -> participant.pid }
                 ) {
                         item -> ParticipantItem(item, onSelect)
@@ -79,14 +88,6 @@ fun ParticipantPicker (
 
 @Composable
 private fun ParticipantItem (participant: Participant, onSelect: (participant: Participant?) -> Unit) {
-    val level : ImageVector =
-        when (participant.level) {
-            GamerLevel.AMATEUR -> Icons.Outlined.BrightnessAuto
-            GamerLevel.SEMIPRO -> Icons.Outlined.Brightness6
-            GamerLevel.PRO -> Icons.Outlined.Brightness5
-            GamerLevel.ELITE -> Icons.Outlined.Brightness7
-            GamerLevel.LEGENDARY -> Icons.Outlined.BrightnessHigh
-        }
     ListItem (
         modifier = Modifier
             .padding(5.dp)
@@ -97,31 +98,5 @@ private fun ParticipantItem (participant: Participant, onSelect: (participant: P
                 Text(participant.gamerName, modifier = Modifier.padding(end = 8.dp))
             }
         },
-        /*
-
-                        supportingContent = {
-                            Row() {
-                                Text(game.description, fontSize = 16.sp, fontWeight = FontWeight.Bold)
-                            }
-                },
-                 */
-        /*
-                leadingContent = {
-                    if (game.picture != null) {
-                        AsyncImage(
-                            model = game.picture,
-                            modifier = Modifier.size(64.dp),
-                            contentDescription = null,
-                            error = rememberVectorPainter(Icons.Outlined.Error),
-                            placeholder = rememberVectorPainter(Icons.Outlined.Casino),
-                        )
-                    }
-        },
-         */
-        /*
-                trailingContent = {
-                    Icon(imageVector = genre, contentDescription = "genre", modifier = Modifier.size(48.dp) )
-                },
-         */
     )
 }
