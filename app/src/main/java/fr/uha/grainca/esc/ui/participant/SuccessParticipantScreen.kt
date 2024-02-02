@@ -60,7 +60,7 @@ fun SuccessParticipantScreen (
             value = participant.favoriteGames.current,
             onAdd = { uiCB.onEvent(ParticipantViewModel.UIEvent.FavoriteGamesAdded(it)) },
             onDelete = { uiCB.onEvent(ParticipantViewModel.UIEvent.FavoriteGamesDeleted(it)) },
-            label = R.string.othergames,
+            label = R.string.favorite_games,
             errorId = participant.favoriteGames.errorId
         )
     }

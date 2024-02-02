@@ -70,4 +70,5 @@
     <string name="favorite_games_select">Favorite Game Select</string>
     <string name="favorite_games_not_enough">Favorite games underloaded</string>
     <string name="favorite_games_too_much">Favorite games overloaded</string>
+    <string name="favorite_games">Favorite Games</string>
 </resources>
