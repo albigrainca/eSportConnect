@@ -1,7 +1,10 @@
 package fr.uha.grainca.esc.ui.event
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.foundation.lazy.items
@@ -23,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.hilt.navigation.compose.hiltViewModel
 import fr.uha.grainca.esc.model.Event
+import fr.uha.grainca.esc.repository.ParticipantRepository
 import fr.uha.hassenforder.android.ui.AppMenu
 import fr.uha.hassenforder.android.ui.AppMenuEntry
 import fr.uha.hassenforder.android.ui.AppTitle
@@ -67,7 +71,7 @@ fun ListEventsScreen(
             onEdit = { onEdit(item) },
             onDelete = { vm.delete(item) },
         ) {
-            eventItem(item)
+            EventItem(item)
         }
         }
     }
@@ -76,18 +80,26 @@ fun ListEventsScreen(
 }
 
 @Composable
-fun eventItem(event: Event) {
+fun EventItem(event: Event) {
 
     ListItem (
         headlineContent = {
-            Text(event.name)
+            Row() {
+                Text(event.name, modifier = Modifier.padding(end = 4.dp), fontWeight = FontWeight.ExtraBold)
+            }
         },
         supportingContent = {
-            Row () {
-                Icon(imageVector = Icons.Outlined.Start, contentDescription = null)
-                Text(UIConverter.convert(event.startDay), fontSize = 16.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 4.dp))
-                Icon(imageVector = Icons.Outlined.Timer, contentDescription = null)
-                Text(UIConverter.convert(event.startDay), fontSize = 16.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 4.dp))
+            Column {
+                Row () {
+                    Icon(imageVector = Icons.Outlined.Start, contentDescription = null)
+                    Spacer(Modifier.width(10.dp))
+                    Text(UIConverter.convert(event.startDay), fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                }
+                Row () {
+                    Icon(imageVector = Icons.Outlined.Timer, contentDescription = null)
+                    Spacer(Modifier.width(10.dp))
+                    Text(event.duration.toString() + " day(s)", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                }
             }
         }
     )
