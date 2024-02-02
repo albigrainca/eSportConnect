@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "participants")
-class Participant (
+data class Participant (
     @PrimaryKey(autoGenerate = true)
     val pid: Long = 0,
     val gamerName: String,

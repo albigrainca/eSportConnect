@@ -12,4 +12,4 @@ data class Event (
     val startDay: Date = Date(),
     val duration: Int = 0,
     val mainGameId: Long = 0,
-)
+){}

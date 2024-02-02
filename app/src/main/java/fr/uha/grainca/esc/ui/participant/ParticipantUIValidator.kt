@@ -1,7 +1,9 @@
 package fr.uha.grainca.esc.ui.participant
 
+import fr.uha.grainca.esc.model.Game
 import fr.uha.grainca.esc.model.GamerLevel
 import fr.uha.grainca.esc.model.Genre
+import fr.uha.grainca.esc.ui.event.EventViewModel
 import fr.uha.hassenforder.team.R
 
 object ParticipantUIValidator {
@@ -38,6 +40,17 @@ object ParticipantUIValidator {
     fun validateGamerLevelChange(newValue: GamerLevel?) : Int? {
         return when {
             newValue == null -> R.string.gamer_level_must_set
+            else -> null
+        }
+    }
+
+    fun validateFavoriteGamesChange(state : ParticipantViewModel.ParticipantUIState, newValue: List<Game>?) : Int? {
+        if (newValue == null) return R.string.favorite_games_not_empty
+        val size = newValue.size
+        return when {
+            size == 0 -> R.string.favorite_games_not_empty
+            size < 1 ->  R.string.favorite_games_not_enough
+            size > 4 ->  R.string.favorite_games_too_much
             else -> null
         }
     }

@@ -13,6 +13,16 @@ class Comparators {
             return true
         }
 
+        fun shallowEqualsParticipant(oldParticipant: Participant?, newParticipant: Participant?): Boolean {
+            if (oldParticipant == null && newParticipant == null) return true
+            if (oldParticipant != null && newParticipant == null) return false
+            if (oldParticipant == null && newParticipant != null) return false
+            oldParticipant as Participant
+            newParticipant as Participant
+            if (oldParticipant.pid != newParticipant.pid) return false
+            return true
+        }
+
         fun shallowEqualsListGames(oldGames: List<Game>?, newGames: List<Game>?): Boolean {
             if (oldGames == null && newGames == null) return true
             if (oldGames != null && newGames == null) return false

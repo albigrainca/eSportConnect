@@ -66,4 +66,8 @@
     <string name="guests_not_enough">Guests underloaded</string>
     <string name="guests_too_much">Guests overloaded</string>
     <string name="guests">Guests</string>
+    <string name="favorite_games_not_empty">Favorite games cannot be empty</string>
+    <string name="favorite_games_select">Favorite Game Select</string>
+    <string name="favorite_games_not_enough">Favorite games underloaded</string>
+    <string name="favorite_games_too_much">Favorite games overloaded</string>
 </resources>
