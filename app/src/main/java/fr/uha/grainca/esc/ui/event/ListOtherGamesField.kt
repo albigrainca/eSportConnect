@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -48,6 +49,8 @@ fun ListOtherGamesField(
     }
 
     Scaffold(
+        modifier = modifier
+            .fillMaxHeight(0.5f),
         floatingActionButton = {
             FloatingActionButton(onClick = { showDialog.value = true }) {
                 Icon(Icons.Filled.Add, contentDescription = "add")
