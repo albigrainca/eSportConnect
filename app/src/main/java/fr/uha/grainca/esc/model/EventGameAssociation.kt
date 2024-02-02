@@ -4,10 +4,10 @@ import androidx.room.Entity
 import androidx.room.Index
 
 @Entity(tableName = "egas",
-    primaryKeys = ["eid", "pid"],
-    indices = [Index("eid"), Index("pid")]
+    primaryKeys = ["eid", "gid"],
+    indices = [Index("eid"), Index("gid")]
 )
 class EventGameAssociation (
     val eid: Long,
-    val pid: Long
+    val gid: Long
 )

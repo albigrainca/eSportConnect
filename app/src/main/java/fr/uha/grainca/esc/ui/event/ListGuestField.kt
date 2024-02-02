@@ -8,8 +8,8 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -26,37 +26,36 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import fr.uha.grainca.esc.model.Game
+import fr.uha.grainca.esc.model.Participant
 import fr.uha.hassenforder.android.ui.SwipeableItem
 import fr.uha.hassenforder.team.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListOtherGamesField(
-    value : List<Game>?,
+fun ListGuestField(
+    value : List<Participant>?,
     modifier : Modifier = Modifier,
     @StringRes label: Int? = null,
-    onAdd: (gid : Long) -> Unit,
-    onDelete: (game : Game) -> Unit,
+    onAdd: (pid : Long) -> Unit,
+    onDelete: (participant: Participant) -> Unit,
     errorId : Int?,
 ) {
     val showDialog = remember { mutableStateOf(false) }
 
-    val existingGameIds = value?.map { it.gid } ?: listOf()
+    val existingParticipantsIds = value?.map { it.pid } ?: listOf()
 
     if (showDialog.value) {
-        GamePicker(
-            title = R.string.otherGames_select,
+        ParticipantPicker(
+            title = R.string.guest_select,
             onSelect = {
                 showDialog.value = false
-                if (it != null && it.gid !in existingGameIds) onAdd(it.gid)
+                if (it != null && it.pid !in existingParticipantsIds) onAdd(it.pid)
             },
-            excludeGameIds = existingGameIds
+            excludeParticipantIds = existingParticipantsIds
         )
     }
 
     Scaffold(
-        modifier = modifier
-            .fillMaxHeight(0.5f),
         floatingActionButton = {
             FloatingActionButton(onClick = { showDialog.value = true }) {
                 Icon(Icons.Filled.Add, contentDescription = "add")
@@ -85,13 +84,13 @@ fun ListOtherGamesField(
             ) {
                 items(
                     items = value?: listOf(),
-                    key = { game: Game -> game.gid }
-                ) { item : Game ->
+                    key = { participant: Participant -> participant.pid }
+                ) { item : Participant ->
                     Divider(color = MaterialTheme.colorScheme.onBackground)
                     SwipeableItem(
                         onDelete = { onDelete(item) }
                     ) {
-                        EventGameItem(item)
+                        EventParticipantItem(item)
                     }
                 }
             }

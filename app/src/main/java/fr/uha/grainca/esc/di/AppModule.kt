@@ -9,8 +9,10 @@ import dagger.hilt.components.SingletonComponent
 import fr.uha.grainca.esc.database.ESportDatabase
 import fr.uha.grainca.esc.database.EventDAO
 import fr.uha.grainca.esc.database.GameDAO
+import fr.uha.grainca.esc.database.ParticipantDAO
 import fr.uha.grainca.esc.repository.EventRepository
 import fr.uha.grainca.esc.repository.GameRepository
+import fr.uha.grainca.esc.repository.ParticipantRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -42,6 +44,10 @@ object AppModule {
 
     @Singleton
     @Provides
+    fun provideParticipantDao(db: ESportDatabase) = db.participantDAO
+
+    @Singleton
+    @Provides
     fun provideGameRepository(
 //        dispatcher: CoroutineDispatcher,
         gameDao: GameDAO
@@ -52,6 +58,14 @@ object AppModule {
     fun provideEventRepository(
 //        dispatcher: CoroutineDispatcher,
         eventDao: EventDAO,
-        gameDao: GameDAO
-    ) = EventRepository(eventDao, gameDao)
+        gameDao: GameDAO,
+        participantDao: ParticipantDAO
+    ) = EventRepository(eventDao, gameDao, participantDao)
+
+    @Singleton
+    @Provides
+    fun provideParticipantRepository(
+//        dispatcher: CoroutineDispatcher,
+        participantDAO: ParticipantDAO
+    ) = ParticipantRepository(participantDAO)
 }

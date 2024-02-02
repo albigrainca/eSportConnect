@@ -1,24 +1,25 @@
-package fr.uha.grainca.esc.ui.event
+package fr.uha.grainca.esc.ui.participant
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.uha.grainca.esc.database.GameDatabaseSeeder
-import fr.uha.grainca.esc.model.Event
 import fr.uha.grainca.esc.model.Game
-import fr.uha.grainca.esc.repository.EventRepository
+import fr.uha.grainca.esc.model.Participant
+import fr.uha.grainca.esc.repository.ParticipantRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class ListEventsViewModel @Inject constructor (
-    private val repository: EventRepository
-) : ViewModel() {
+class ListParticipantsViewModel @Inject constructor(
+    private val repository: ParticipantRepository
+) : ViewModel()
+{
     fun feed() = viewModelScope.launch {
         withContext(Dispatchers.IO) {
-            GameDatabaseSeeder().populate()
+            GameDatabaseSeeder().populateParticipant()
         }
     }
 
@@ -28,10 +29,9 @@ class ListEventsViewModel @Inject constructor (
         }
     }
 
-    fun delete(event: Event) = viewModelScope.launch {
-        repository.delete(event)
+    fun delete(participant: Participant) = viewModelScope.launch {
+        repository.delete(participant)
     }
 
-    val events = repository.getAll()
-
+    val participants = repository.getAll()
 }

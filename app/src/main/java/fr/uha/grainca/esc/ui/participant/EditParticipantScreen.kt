@@ -1,4 +1,4 @@
-package fr.uha.grainca.esc.ui.game
+package fr.uha.grainca.esc.ui.participant
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -23,15 +23,15 @@ import fr.uha.hassenforder.team.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditGameScreen (
-    vm : GameViewModel = hiltViewModel(),
-    gid : Long,
+fun EditParticipantScreen (
+    vm : ParticipantViewModel = hiltViewModel(),
+    pid : Long,
     back : () -> Unit
 ) {
     val state by vm.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        vm.edit(gid)
+        vm.edit(pid)
     }
 
     val menuEntries = listOf (
@@ -46,7 +46,7 @@ fun EditGameScreen (
     Scaffold (
         topBar = {
             TopAppBar(
-                title = { AppTitle(appNameId = R.string.app_name, pageTitleId = R.string.game_edit, isModified = state.isModified()) },
+                title = { AppTitle(appNameId = R.string.app_name, pageTitleId = R.string.participant_edit, isModified = state.isModified()) },
                 actions = { AppMenu(entries = menuEntries) }
             )
         }
@@ -56,12 +56,12 @@ fun EditGameScreen (
             modifier = Modifier.padding(it)
         ) {
             when (state.initialState) {
-                GameViewModel.GameState.Loading ->
+                ParticipantViewModel.ParticipantState.Loading ->
                     LoadingScreen(text = stringResource(id = R.string.loading))
-                GameViewModel.GameState.Error ->
+                ParticipantViewModel.ParticipantState.Error ->
                     ErrorScreen(text = stringResource(id = R.string.error))
-                is GameViewModel.GameState.Success ->
-                    SuccessGameScreen(state, vm.uiCallback )
+                is ParticipantViewModel.ParticipantState.Success ->
+                    SuccessParticipantScreen(state, vm.uiCallback )
             }
         }
     }

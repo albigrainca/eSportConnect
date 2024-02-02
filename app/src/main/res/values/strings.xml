@@ -44,6 +44,26 @@
     <string name="maingame">Main game</string>
     <string name="game_select">Game select</string>
     <string name="otherGames_select">Other games select</string>
-    <string name="event_list">Team list</string>
+    <string name="event_list">List of Events</string>
     <string name="title_event_edit">Name event edit</string>
+    <string name="othergames">Other games</string>
+    <string name="invalid_age_too_young">Too young</string>
+    <string name="invalid_age_too_old">Invalid age</string>
+    <string name="gamer_level_must_set">Gamer level must set</string>
+    <string name="participant_create">Create Participant</string>
+    <string name="gamer_name">Gamer name</string>
+    <string name="real_name">Real name</string>
+    <string name="age">Age</string>
+    <string name="gamer_level">Level</string>
+    <string name="participant_edit">Participant edit</string>
+    <string name="participants_list">List of Participants</string>
+    <string name="action_participant">participants route</string>
+    <string name="action_participant_create">Create participant</string>
+    <string name="action_participant_edit">Edit participant</string>
+    <string name="participant_select">Participant select</string>
+    <string name="guest_select">Guest select</string>
+    <string name="guests_not_empty">Guests cannot be empty</string>
+    <string name="guests_not_enough">Guests underloaded</string>
+    <string name="guests_too_much">Guests overloaded</string>
+    <string name="guests">Guests</string>
 </resources>

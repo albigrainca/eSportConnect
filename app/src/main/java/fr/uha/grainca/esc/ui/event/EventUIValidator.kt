@@ -1,6 +1,7 @@
 package fr.uha.grainca.esc.ui.event
 
 import fr.uha.grainca.esc.model.Game
+import fr.uha.grainca.esc.model.Participant
 import fr.uha.hassenforder.team.R
 import java.time.Instant
 import java.time.temporal.ChronoUnit
@@ -59,6 +60,17 @@ object EventUIValidator {
             size == 0 -> R.string.other_games_not_empty
             size < 1 ->  R.string.other_games_not_enough
             size > 4 ->  R.string.other_games_too_much
+            else -> null
+        }
+    }
+
+    fun validateGuestsChange(state : EventViewModel.EventUIState, newValue: List<Participant>?) : Int? {
+        if (newValue == null) return R.string.guests_not_empty
+        val size = newValue.size
+        return when {
+            size == 0 -> R.string.guests_not_empty
+            size < 1 ->  R.string.guests_not_enough
+            size > 9 ->  R.string.guests_too_much
             else -> null
         }
     }

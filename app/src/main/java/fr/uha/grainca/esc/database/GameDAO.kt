@@ -16,13 +16,13 @@ interface GameDAO {
     fun getAll () : Flow<List<Game>>
 
     @Query("SELECT * " +
-            ", (SELECT COUNT(*) FROM events E WHERE E.mainGameId = G.pid) AS mainGameCount" +
-            ", (SELECT COUNT(*) FROM egas EGA WHERE EGA.pid = G.pid) AS otherGameCount" +
+            ", (SELECT COUNT(*) FROM events E WHERE E.mainGameId = G.gid) AS mainGameCount" +
+            ", (SELECT COUNT(*) FROM egas EGA WHERE EGA.gid = G.gid) AS otherGameCount" +
             " FROM games AS G")
     fun getAllWithDetails () : Flow<List<GameWithDetails>>
 
 
-    @Query("SELECT * FROM games WHERE pid = :id")
+    @Query("SELECT * FROM games WHERE gid = :id")
     fun getGameById (id : Long) : Flow<Game?>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)

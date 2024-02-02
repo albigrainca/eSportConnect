@@ -8,6 +8,7 @@ import fr.uha.grainca.esc.model.Comparators
 import fr.uha.grainca.esc.model.Event
 import fr.uha.grainca.esc.model.FullEvent
 import fr.uha.grainca.esc.model.Game
+import fr.uha.grainca.esc.model.Participant
 import fr.uha.grainca.esc.repository.EventRepository
 import fr.uha.hassenforder.android.kotlin.combine
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -66,6 +67,11 @@ class EventViewModel @Inject constructor (
                 val errorId : Int? = EventUIValidator.validateOtherGamesChange(state, newValue)
                 return FieldWrapper(newValue, errorId)
             }
+
+            fun buildGuests(state : EventUIState, newValue: List<Participant>?): FieldWrapper<List<Participant>> {
+                val errorId : Int? = EventUIValidator.validateGuestsChange(state, newValue)
+                return FieldWrapper(newValue, errorId)
+            }
         }
     }
 
@@ -74,6 +80,7 @@ class EventViewModel @Inject constructor (
     private val _durationState = MutableStateFlow(FieldWrapper<Int>())
     private val _mainGameState = MutableStateFlow(FieldWrapper<Game>())
     private val _otherGamesState = MutableStateFlow(FieldWrapper<List<Game>>())
+    private val _guestsState = MutableStateFlow(FieldWrapper<List<Participant>>())
 
     private val _eventId: MutableStateFlow<Long> = MutableStateFlow(0)
 
@@ -87,6 +94,7 @@ class EventViewModel @Inject constructor (
                 _durationState.emit(FieldWrapper.buildDuration(uiState.value, e.event.duration))
                 _mainGameState.emit(FieldWrapper.buildMainGame(uiState.value, e.mainGame))
                 _otherGamesState.emit(FieldWrapper.buildOtherGames(uiState.value, e.otherGames))
+                _guestsState.emit(FieldWrapper.buildGuests(uiState.value, e.guests))
                 EventState.Success(event = e)
             } else {
                 EventState.Error
@@ -97,6 +105,8 @@ class EventViewModel @Inject constructor (
     private val _updateMainGameId: MutableSharedFlow<Long> = MutableSharedFlow(0)
     private val _addOtherGameId: MutableSharedFlow<Long> = MutableSharedFlow(0)
     private val _delOtherGameId: MutableSharedFlow<Long> = MutableSharedFlow(0)
+    private val _addGuestId: MutableSharedFlow<Long> = MutableSharedFlow(0)
+    private val _delGuestId: MutableSharedFlow<Long> = MutableSharedFlow(0)
 
     init {
         _updateMainGameId
@@ -125,9 +135,30 @@ class EventViewModel @Inject constructor (
             .map {
                 var og: MutableList<Game> = mutableListOf()
                 _otherGamesState.value.current?.forEach { gg ->
-                    if (gg.pid != it) og.add(gg)
+                    if (gg.gid != it) og.add(gg)
                 }
                 _otherGamesState.emit(FieldWrapper.buildOtherGames(uiState.value, og))
+            }
+            .launchIn(viewModelScope)
+
+        _addGuestId
+            .flatMapLatest { id -> repository.getParticipantById(id) }
+            .map {
+                    g -> if (g != null) {
+                var p : MutableList<Participant>? = _guestsState.value.current?.toMutableList() ?: mutableListOf()
+                p?.add(g)
+                _guestsState.emit(FieldWrapper.buildGuests(uiState.value, p))
+            }
+            }
+            .launchIn(viewModelScope)
+
+        _delGuestId
+            .map {
+                var g: MutableList<Participant> = mutableListOf()
+                _guestsState.value.current?.forEach { p ->
+                    if (p.pid != it) g.add(p)
+                }
+                _guestsState.emit(FieldWrapper.buildGuests(uiState.value, g))
             }
             .launchIn(viewModelScope)
     }
@@ -139,6 +170,7 @@ class EventViewModel @Inject constructor (
         val duration: FieldWrapper<Int>,
         val mainGame: FieldWrapper<Game>,
         val otherGames: FieldWrapper<List<Game>>,
+        val guests: FieldWrapper<List<Participant>>,
     ) {
         private fun _isModified(): Boolean? {
             if (initialState !is EventState.Success) return null
@@ -148,6 +180,7 @@ class EventViewModel @Inject constructor (
             if (duration.current != initialState.event.event.duration) return true
             if (! Comparators.shallowEqualsGame(mainGame.current, initialState.event.mainGame)) return true
             if (! Comparators.shallowEqualsListGames(otherGames.current, initialState.event.otherGames)) return true
+            if (! Comparators.shallowEqualsListParticipants(guests.current, initialState.event.guests)) return true
             return false
         }
 
@@ -157,6 +190,7 @@ class EventViewModel @Inject constructor (
             if (duration.errorId != null) return true
             if (mainGame.errorId != null) return true
             if (otherGames.errorId != null) return true
+            if (guests.errorId != null) return true
             return false
         }
 
@@ -179,12 +213,14 @@ class EventViewModel @Inject constructor (
         _initialEventState,
         _nameState, _startDayState, _durationState,
         _mainGameState,
-        _otherGamesState
-    ) { initial, n, s, d, mg, og -> EventUIState(initial, n, s, d, mg, og) }.stateIn(
+        _otherGamesState,
+        _guestsState
+    ) { initial, n, s, d, mg, og, g -> EventUIState(initial, n, s, d, mg, og, g) }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = EventUIState(
             EventState.Loading,
+            FieldWrapper(),
             FieldWrapper(),
             FieldWrapper(),
             FieldWrapper(),
@@ -199,7 +235,9 @@ class EventViewModel @Inject constructor (
         data class DurationChanged(val newValue: Int): UIEvent()
         data class MainGameChanged(val newValue: Long?): UIEvent()
         data class OtherGamesAdded(val newValue: Long): UIEvent()
+        data class GuestsAdded(val newValue: Long): UIEvent()
         data class OtherGamesDeleted(val newValue: Game): UIEvent()
+        data class GuestsDeleted(val newValue: Participant): UIEvent()
     }
 
     data class EventUICallback(
@@ -218,19 +256,21 @@ class EventViewModel @Inject constructor (
                         else _mainGameState.emit(FieldWrapper.buildMainGame(uiState.value, null))
                     }
                     is UIEvent.OtherGamesAdded -> _addOtherGameId.emit(it.newValue)
-                    is UIEvent.OtherGamesDeleted -> _delOtherGameId.emit(it.newValue.pid)
+                    is UIEvent.GuestsAdded -> _addGuestId.emit(it.newValue)
+                    is UIEvent.OtherGamesDeleted -> _delOtherGameId.emit(it.newValue.gid)
+                    is UIEvent.GuestsDeleted -> _delGuestId.emit(it.newValue.pid)
                 }
             }
         }
     )
 
-    fun edit(pid: Long) = viewModelScope.launch {
-        _eventId.emit(pid)
+    fun edit(gid: Long) = viewModelScope.launch {
+        _eventId.emit(gid)
     }
 
     fun create(event: Event) = viewModelScope.launch {
-        val pid : Long = repository.createEvent(event)
-        _eventId.emit(pid)
+        val eid : Long = repository.createEvent(event)
+        _eventId.emit(eid)
     }
 
     fun save() = viewModelScope.launch {
@@ -242,10 +282,11 @@ class EventViewModel @Inject constructor (
                 name = _nameState.value.current!!,
                 startDay = _startDayState.value.current!!,
                 duration = _durationState.value.current!!,
-                mainGameId = _mainGameState.value.current?.pid ?: 0
+                mainGameId = _mainGameState.value.current?.gid ?: 0
             ),
             mainGame = _mainGameState.value.current,
-            otherGames = _otherGamesState.value.current!!
+            otherGames = _otherGamesState.value.current!!,
+            guests = _guestsState.value.current!!
         )
         repository.saveEvent(oldEvent.event, event)
     }

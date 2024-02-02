@@ -2,7 +2,9 @@ package fr.uha.grainca.esc.database
 
 import fr.uha.grainca.esc.model.Event
 import fr.uha.grainca.esc.model.Game
+import fr.uha.grainca.esc.model.GamerLevel
 import fr.uha.grainca.esc.model.Genre
+import fr.uha.grainca.esc.model.Participant
 import java.util.Calendar
 import java.util.Date
 import java.util.Random
@@ -21,15 +23,29 @@ class GameDatabaseSeeder {
         return ids
     }
 
-    private suspend fun feedEvents(pids: LongArray) {
+    private suspend fun feedParticipant(): LongArray {
+        val dao: ParticipantDAO = ESportDatabase.get().participantDAO
+        val ids = LongArray(4)
+        ids[0] = dao.create(getRandomParticipant())
+        ids[1] = dao.create(getRandomParticipant())
+        ids[2] = dao.create(getRandomParticipant())
+        ids[3] = dao.create(getRandomParticipant())
+        return ids
+    }
+
+    private suspend fun feedEvents(gids: LongArray) {
         val dao: EventDAO = ESportDatabase.get().eventDAO
-        val event = getRandomEvent(pids.get(0))
+        val event = getRandomEvent(gids.get(0))
         val eid = dao.create(event)
     }
 
     suspend fun populate() {
-        val pids = feedGames()
-        feedEvents(pids)
+        val gids = feedGames()
+        feedEvents(gids)
+    }
+
+    suspend fun populateParticipant() {
+        feedParticipant()
     }
 
     suspend fun clear() {
@@ -88,6 +104,41 @@ class GameDatabaseSeeder {
         "Cyber Clash"
     )
 
+    private val gamerNames = arrayOf(
+        "ShadowNinja92",
+        "BlazeGamerX",
+        "CyberDragon99",
+        "SonicSpeedster77",
+        "PixelPirate88",
+        "MysticMage55",
+        "TitanSlayer123",
+        "QuantumQuasar77",
+        "FrostByte66",
+        "PhoenixFirestorm"
+    )
+
+    private val realNames = arrayOf(
+        "John Smith",
+        "Emily Johnson",
+        "Michael Brown",
+        "Emma Williams",
+        "Christopher Jones",
+        "Olivia Davis",
+        "William Miller",
+        "Ava Wilson",
+        "David Taylor",
+        "Sophia Anderson"
+    )
+
+    private fun getRandomAge(): Int {
+        return 18 + random.nextInt(18)
+    }
+
+    private fun getRandomGamerLevel(): GamerLevel {
+        val levels = GamerLevel.values()
+        return levels[random.nextInt(levels.size)]
+    }
+
     private fun getRandomDate(): Date {
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.YEAR, -random.nextInt(10))
@@ -131,6 +182,13 @@ class GameDatabaseSeeder {
             null
         )
     }
-
-
+    private fun getRandomParticipant(): Participant {
+        return Participant(
+            0,
+            gamerNames[random.nextInt(gamerNames.size)],
+            realNames[random.nextInt(realNames.size)],
+            getRandomAge(),
+            getRandomGamerLevel()
+        )
+    }
 }

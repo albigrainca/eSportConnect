@@ -8,6 +8,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import fr.uha.grainca.esc.model.Event
 import fr.uha.grainca.esc.model.EventGameAssociation
+import fr.uha.grainca.esc.model.EventParticipantAssociation
 import fr.uha.grainca.esc.model.FullEvent
 import kotlinx.coroutines.flow.Flow
 
@@ -35,15 +36,30 @@ interface EventDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addEventGame(otherGame: EventGameAssociation)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addEventParticipant(guest: EventParticipantAssociation)
+
     @Delete
     suspend fun removeEventGame(otherGame: EventGameAssociation)
 
+    @Delete
+    suspend fun removeEventParticipant(guest: EventParticipantAssociation)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addEventGame(otherGames: List<EventGameAssociation>)
+    suspend fun addEventGame(othersGames: List<EventGameAssociation>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addEventParticipant(guests: List<EventParticipantAssociation>)
 
     @Delete
-    suspend fun removeEventGame(members: List<EventGameAssociation>)
+    suspend fun removeEventGame(othersGames: List<EventGameAssociation>)
+
+    @Delete
+    suspend fun removeEventParticipant(guest: List<EventParticipantAssociation>)
 
     @Query ("DELETE FROM egas WHERE eid = :eid")
     fun deleteEventGame(eid: Long)
+
+    @Query ("DELETE FROM epas WHERE eid = :eid")
+    fun deleteEventParticipant(eid: Long)
 }
