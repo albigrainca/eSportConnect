@@ -66,6 +66,7 @@ object AppModule {
     @Provides
     fun provideParticipantRepository(
 //        dispatcher: CoroutineDispatcher,
-        participantDAO: ParticipantDAO
-    ) = ParticipantRepository(participantDAO)
+        participantDAO: ParticipantDAO,
+        gameDao: GameDAO,
+        ) = ParticipantRepository(participantDAO, gameDao)
 }
