@@ -31,11 +31,11 @@ private sealed class GameNavGraphEntry(
 
     // to edit a person
     object Edit: GameNavGraphEntry(
-        route = "game/{pid}",
+        route = "game/{gid}",
         title = R.string.action_game_edit,
     ) {
-        fun to (pid : Long) : String {
-            return route.replace("{pid}", pid.toString())
+        fun to (gid : Long) : String {
+            return route.replace("{gid}", gid.toString())
         }
     }
 
@@ -48,7 +48,7 @@ fun NavGraphBuilder.gamesNavGraph (
         composable(route = GameNavGraphEntry.Games.route) {
             ListGamesScreen(
                 onCreate = { navController.navigate(GameNavGraphEntry.Create.route) },
-                onEdit = { g : Game -> navController.navigate(GameNavGraphEntry.Edit.to(g.pid)) }
+                onEdit = { g : Game -> navController.navigate(GameNavGraphEntry.Edit.to(g.gid)) }
             )
         }
         composable(route = GameNavGraphEntry.Create.route) {
@@ -56,10 +56,10 @@ fun NavGraphBuilder.gamesNavGraph (
         }
         composable(
             route = GameNavGraphEntry.Edit.route,
-            arguments = listOf(navArgument("pid") { type = NavType.LongType })
+            arguments = listOf(navArgument("gid") { type = NavType.LongType })
         ) {
                 backStackEntry ->
-            EditGameScreen(pid = backStackEntry.arguments?.getLong("pid")!!, back = { navController.popBackStack() } )
+            EditGameScreen(gid = backStackEntry.arguments?.getLong("gid")!!, back = { navController.popBackStack() } )
         }
     }
 }

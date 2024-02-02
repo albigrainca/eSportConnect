@@ -62,6 +62,14 @@ sealed class BottomBarNavGraphEntry(
         icon = Icons.Outlined.Event,
         iconFocused = Icons.Filled.Event
     )
+
+    // for participants
+    object Participants: BottomBarNavGraphEntry(
+        route = "tl_participants",
+        title = R.string.action_participant,
+        icon = Icons.Outlined.Person,
+        iconFocused = Icons.Filled.Person
+    )
 }
 
 @Composable
@@ -75,6 +83,7 @@ fun BottomNavGraph (
         modifier = modifier
     ) {
         gamesNavGraph(navController = navController)
+        participantsNavGraph(navController = navController)
         eventsNavGraph(navController = navController)
     }
 }
@@ -84,7 +93,8 @@ fun BottomBar(navController: NavHostController) {
 
     val screens = listOf(
         BottomBarNavGraphEntry.Games,
-        BottomBarNavGraphEntry.Events
+        BottomBarNavGraphEntry.Events,
+        BottomBarNavGraphEntry.Participants,
     )
 
     val navStackBackEntry by navController.currentBackStackEntryAsState()

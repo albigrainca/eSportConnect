@@ -10,6 +10,11 @@ class UIConverter {
             val sdf = SimpleDateFormat("dd/MMM/yyyy")
             return sdf.format(date)
         }
+
+        fun secondConvert(date: Date): String {
+            val sdf = SimpleDateFormat("dd MMM yyyy")
+            return sdf.format(date)
+        }
     }
 
 }

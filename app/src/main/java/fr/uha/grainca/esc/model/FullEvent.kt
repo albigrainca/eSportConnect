@@ -8,9 +8,12 @@ class FullEvent (
     @Embedded
     val event: Event,
 
-    @Relation(parentColumn = "mainGameId", entityColumn = "pid")
+    @Relation(parentColumn = "mainGameId", entityColumn = "gid")
     val mainGame: Game?,
 
-    @Relation(parentColumn = "eid", entityColumn = "pid", associateBy = Junction(EventGameAssociation::class))
+    @Relation(parentColumn = "eid", entityColumn = "gid", associateBy = Junction(EventGameAssociation::class))
     val otherGames: List<Game>,
+
+    @Relation(parentColumn = "eid", entityColumn = "pid", associateBy = Junction(EventParticipantAssociation::class))
+    val guests: List<Participant>,
 )

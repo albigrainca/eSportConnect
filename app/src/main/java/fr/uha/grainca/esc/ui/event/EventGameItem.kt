@@ -4,6 +4,21 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.DirectionsCar
+import androidx.compose.material.icons.filled.Explore
+import androidx.compose.material.icons.filled.Extension
+import androidx.compose.material.icons.filled.FitnessCenter
+import androidx.compose.material.icons.filled.FlashOn
+import androidx.compose.material.icons.filled.Games
+import androidx.compose.material.icons.filled.Gesture
+import androidx.compose.material.icons.filled.Group
+import androidx.compose.material.icons.filled.Lightbulb
+import androidx.compose.material.icons.filled.MusicNote
+import androidx.compose.material.icons.filled.Password
+import androidx.compose.material.icons.filled.SportsSoccer
+import androidx.compose.material.icons.filled.Stairs
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.outlined.Casino
 import androidx.compose.material.icons.outlined.DoNotDisturb
 import androidx.compose.material.icons.outlined.Error
@@ -28,21 +43,21 @@ import fr.uha.grainca.esc.model.Genre
 fun EventGameItem (game: Game) {
     val genre : ImageVector =
         when (game.genre) {
-            Genre.ACTION -> Icons.Outlined.DoNotDisturb
-            Genre.ADVENTURE -> Icons.Outlined.DoNotDisturb
-            Genre.PUZZLE -> Icons.Outlined.DoNotDisturb
-            Genre.SPORTS -> Icons.Outlined.DoNotDisturb
-            Genre.STRATEGY -> Icons.Outlined.DoNotDisturb
-            Genre.RPG -> Icons.Outlined.DoNotDisturb
-            Genre.SIMULATION -> Icons.Outlined.DoNotDisturb
-            Genre.RACING -> Icons.Outlined.DoNotDisturb
-            Genre.FIGHTING -> Icons.Outlined.DoNotDisturb
-            Genre.HORROR -> Icons.Outlined.DoNotDisturb
-            Genre.PLATFORMER -> Icons.Outlined.DoNotDisturb
-            Genre.SHOOTER -> Icons.Outlined.DoNotDisturb
-            Genre.MMO -> Icons.Outlined.DoNotDisturb
-            Genre.MUSIC -> Icons.Outlined.DoNotDisturb
-            Genre.ARCADE -> Icons.Outlined.DoNotDisturb
+            Genre.ACTION -> Icons.Filled.FlashOn
+            Genre.ADVENTURE -> Icons.Filled.Explore
+            Genre.PUZZLE -> Icons.Filled.Extension
+            Genre.SPORTS -> Icons.Filled.SportsSoccer
+            Genre.STRATEGY -> Icons.Filled.Lightbulb
+            Genre.RPG -> Icons.Filled.Password
+            Genre.SIMULATION -> Icons.Filled.Build
+            Genre.RACING -> Icons.Filled.DirectionsCar
+            Genre.FIGHTING -> Icons.Filled.FitnessCenter
+            Genre.HORROR -> Icons.Filled.VisibilityOff
+            Genre.PLATFORMER -> Icons.Filled.Stairs
+            Genre.SHOOTER -> Icons.Filled.Gesture
+            Genre.MMO -> Icons.Filled.Group
+            Genre.MUSIC -> Icons.Filled.MusicNote
+            Genre.ARCADE -> Icons.Filled.Games
         }
     ListItem (
         headlineContent = {
