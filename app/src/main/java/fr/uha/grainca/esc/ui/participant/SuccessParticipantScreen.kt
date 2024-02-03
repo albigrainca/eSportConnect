@@ -10,6 +10,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import fr.uha.grainca.esc.model.GamerLevel
+import fr.uha.grainca.esc.ui.event.EventViewModel
+import fr.uha.grainca.esc.ui.event.ListOtherGamesField
 import fr.uha.hassenforder.android.ui.OutlinedSpinnerField
 import fr.uha.hassenforder.android.ui.OutlinedSpinnerFieldEnum
 import fr.uha.hassenforder.team.R
@@ -53,6 +55,13 @@ fun SuccessParticipantScreen (
             enumValues = GamerLevel.values(),
             labelId = R.string.gamer_level,
             errorId = participant.levelState.errorId
+        )
+        ListFavoriteGamesField(
+            value = participant.favoriteGames.current,
+            onAdd = { uiCB.onEvent(ParticipantViewModel.UIEvent.FavoriteGamesAdded(it)) },
+            onDelete = { uiCB.onEvent(ParticipantViewModel.UIEvent.FavoriteGamesDeleted(it)) },
+            label = R.string.favorite_games,
+            errorId = participant.favoriteGames.errorId
         )
     }
 }

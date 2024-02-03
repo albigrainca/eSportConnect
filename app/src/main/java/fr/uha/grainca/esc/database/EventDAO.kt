@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface EventDAO {
     @Query("SELECT * FROM events")
-    fun getAll () : Flow<List<Event>>
+    fun getAll () : Flow<List<Event>>   
 
     @Query("SELECT * FROM events WHERE eid = :id")
     @Transaction

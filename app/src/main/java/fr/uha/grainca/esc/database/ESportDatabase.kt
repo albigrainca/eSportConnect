@@ -10,6 +10,7 @@ import fr.uha.grainca.esc.model.Event
 import fr.uha.grainca.esc.model.EventGameAssociation
 import fr.uha.grainca.esc.model.EventParticipantAssociation
 import fr.uha.grainca.esc.model.Participant
+import fr.uha.grainca.esc.model.ParticipantGameAssociation
 import fr.uha.hassenforder.android.database.DatabaseTypeConverters
 
 @Database(
@@ -18,7 +19,8 @@ import fr.uha.hassenforder.android.database.DatabaseTypeConverters
         Participant::class,
         Event::class,
         EventGameAssociation::class,
-        EventParticipantAssociation::class
+        EventParticipantAssociation::class,
+        ParticipantGameAssociation::class
     ],
     version=1,
     exportSchema = false
